@@ -155,13 +155,32 @@ button,input,textarea{font-family:inherit}
 .aira .lastrun{border-radius:var(--aira-radius-xs)}
 .aira .lastrun:hover > span:first-child{text-decoration:underline}
 #dhost{position:fixed;inset:0;z-index:6}
+/* The rail is a dark surface: the Apps page's dark tokens, so its selected tile is navy. */
+.aira .dark{--aira-bg-selected:#1F2A55;--aira-bg-hover:#1C2640;--aira-text-primary:#F4F6FA;--aira-text-secondary:#C8CFDB;--aira-text-tertiary:#94A0B4}
+/* Narrower than the product minimum, the window scrolls rather than clipping;
+   the Apps page holds 1280, this table holds its columns down to 1024. */
+#app{min-width:1024px !important}
+/* Button fills live in classes, never inline, so hover can change them. */
+.aira .btn-p{background:var(--aira-bg-brand);color:var(--aira-text-inverse);transition:background var(--aira-motion-fast) ease-out}
+.aira .btn-p:hover{background:var(--aira-bg-brand-hover)}
+.aira .btn-p[disabled]{background:var(--aira-bg-muted);color:var(--aira-text-disabled);cursor:default}
+.aira .btn-g{background:var(--aira-bg-default);color:var(--aira-text-secondary);transition:background var(--aira-motion-fast) ease-out}
+.aira .btn-g:hover{background:var(--aira-bg-hover)}
+.aira .btn-d{background:var(--aira-bg-danger);color:var(--aira-text-inverse);transition:background var(--aira-motion-fast) ease-out}
+.aira .btn-d:hover{background:#B11E1E}
+.aira .btn-t{background:transparent;color:var(--aira-text-secondary);transition:background var(--aira-motion-fast) ease-out}
+.aira .btn-t:hover{background:var(--aira-bg-hover)}
+.aira .spin{animation:spin 1s linear infinite}
+.aira .tabbtn{transition:color var(--aira-motion-fast) ease-out,border-color var(--aira-motion-fast) ease-out}
+.aira .tabbtn[aria-selected="false"]:hover{color:var(--aira-text-primary);border-bottom-color:var(--aira-border-strong) !important}
+@media (prefers-reduced-motion:reduce){.aira .btn-p,.aira .btn-g,.aira .btn-d,.aira .btn-t,.aira .tabbtn{transition:none}}
 #chathost{position:fixed;inset:0;z-index:7;background:#F6F8FA}
 #proto[hidden],#chathost[hidden],#dhost[hidden]{display:none}
 </style>
 <div id="app" class="aira"></div><div id="dhost" class="aira" hidden></div><div id="chathost" class="aira" hidden></div><div id="share-host"></div><div id="proto"></div>
 <style>
 /* The scheduler panel’s own Schedule and Recipients sections, scoped to the edit drawer. */
-#sched-ed{
+:is(#sched-ed, .mailscope){
   --field-w: 220px; 
   --aira-font-sans: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
   --aira-bg-canvas: #F6F8FA;
@@ -213,331 +232,331 @@ button,input,textarea{font-family:inherit}
   --aira-radius-xs: 4px; --aira-radius-sm: 6px; --aira-radius-md: 8px; --aira-radius-lg: 12px; --aira-radius-pill: 999px;
   --aira-motion-fast: 120ms;
 }
-#sched-ed *{ box-sizing: border-box; }
-#sched-ed [hidden]{ display: none !important; }
-#sched-ed button, #sched-ed input{ font: inherit; color: inherit; }
-#sched-ed svg.i{ width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-#sched-ed :focus-visible{ outline: 2px solid var(--aira-border-focus); outline-offset: 2px; border-radius: var(--aira-radius-xs); }
-#sched-ed .sr{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-#sched-ed .panel{
+:is(#sched-ed, .mailscope) *{ box-sizing: border-box; }
+:is(#sched-ed, .mailscope) [hidden]{ display: none !important; }
+:is(#sched-ed, .mailscope) button, :is(#sched-ed, .mailscope) input{ font: inherit; color: inherit; }
+:is(#sched-ed, .mailscope) svg.i{ width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+:is(#sched-ed, .mailscope) :focus-visible{ outline: 2px solid var(--aira-border-focus); outline-offset: 2px; border-radius: var(--aira-radius-xs); }
+:is(#sched-ed, .mailscope) .sr{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:is(#sched-ed, .mailscope) .panel{
   max-width: 640px; margin-inline: auto; background: var(--aira-bg-surface);
   border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-lg); box-shadow: var(--aira-shadow-sm);
 }
-#sched-ed .head{ display: flex; align-items: center; gap: var(--aira-sp-3); padding: var(--aira-sp-4) var(--aira-sp-5); border-bottom: 1px solid var(--aira-border-default); flex-wrap: nowrap; }
-#sched-ed .head h1{ margin: 0; font: 500 16px/24px var(--aira-font-sans); min-width: 0; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-#sched-ed .head .ver, #sched-ed .head .pill, #sched-ed .head-actions{ flex: none; }
-#sched-ed .ver{ font: 500 12px/16px var(--aira-font-sans); color: var(--aira-text-secondary); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-pill); padding: 2px var(--aira-sp-2); }
-#sched-ed .pill{ display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font: 500 12px/16px var(--aira-font-sans); border-radius: var(--aira-radius-pill); }
-#sched-ed .pill::before{ content: ""; width: 6px; height: 6px; border-radius: 50%; flex: none; }
-#sched-ed .pill-draft{ background: #EEF1F4; color: #364152; }
-#sched-ed .pill-draft::before{ background: #9AA4B2; }
-#sched-ed .pill-live{ background: #E7F6EC; color: #185C32; }
-#sched-ed .pill-live::before{ background: #2A9D55; }
-#sched-ed .head .grow{ flex: 1; }
-#sched-ed .head-actions{ display: flex; align-items: center; gap: var(--aira-sp-2); margin-left: auto; }
-#sched-ed .head-actions .btn{ height: 32px; padding: 0 var(--aira-sp-3); }
-#sched-ed .btn{ height: 36px; padding: 0 var(--aira-sp-4); border-radius: var(--aira-radius-md); border: 1px solid transparent; font: 500 14px/20px var(--aira-font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: var(--aira-sp-2); transition: background var(--aira-motion-fast); white-space: nowrap; }
-#sched-ed .btn.primary{ background: var(--aira-btn-primary-bg); color: var(--aira-btn-primary-text); }
-#sched-ed .btn.primary:hover:not(:disabled){ background: var(--aira-btn-primary-bg-hover); }
-#sched-ed .btn.secondary{ background: var(--aira-btn-secondary-bg); color: var(--aira-btn-secondary-text); border-color: var(--aira-btn-secondary-border); }
-#sched-ed .btn.secondary:hover:not(:disabled){ background: var(--aira-btn-secondary-bg-hover); }
-#sched-ed .btn.tertiary{ background: transparent; color: var(--aira-btn-tertiary-text); height: 32px; padding: 0 var(--aira-sp-3); }
-#sched-ed .btn.tertiary:hover{ background: var(--aira-btn-tertiary-bg-hover); }
-#sched-ed .btn:disabled{ background: var(--aira-bg-disabled); color: var(--aira-text-disabled); border-color: transparent; cursor: not-allowed; }
-#sched-ed .icon-btn{ width: 32px; height: 32px; display: inline-grid; place-items: center; background: transparent; border: 0; border-radius: var(--aira-radius-sm); color: var(--aira-text-secondary); cursor: pointer; }
-#sched-ed .icon-btn:hover:not(:disabled){ background: var(--aira-bg-hover); }
-#sched-ed .icon-btn:disabled{ color: var(--aira-text-disabled); cursor: not-allowed; }
-#sched-ed .section{ padding: var(--aira-sp-5); }
-#sched-ed .section-head{ display: flex; align-items: baseline; justify-content: space-between; gap: var(--aira-sp-3); margin-bottom: var(--aira-sp-5); }
-#sched-ed .section-head h2{ margin: 0; font: 500 16px/24px var(--aira-font-sans); }
-#sched-ed .section-head p{ margin: 0; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .rows{ display: grid; grid-template-columns: 88px minmax(0, 1fr); column-gap: var(--aira-sp-4); row-gap: var(--aira-sp-4); align-items: start; }
-#sched-ed .row-label{ font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); padding-top: 8px; }
-#sched-ed .row-control{ min-width: 0; display: flex; flex-direction: column; gap: var(--aira-sp-2); }
-#sched-ed .inline{ display: flex; align-items: center; gap: var(--aira-sp-2); flex-wrap: wrap; }
-#sched-ed .hint{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); margin: 0; }
-#sched-ed .err{ display: flex; align-items: flex-start; gap: 6px; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-danger); margin: 0; }
-#sched-ed .err svg{ width: 14px; height: 14px; margin-top: 3px; }
-#sched-ed .seg{ display: inline-flex; padding: 2px; gap: 2px; background: var(--aira-bg-muted); border-radius: var(--aira-radius-md); max-width: 100%; flex-wrap: wrap; }
-#sched-ed .seg button{ height: 32px; padding: 0 var(--aira-sp-4); border: 0; background: transparent; border-radius: var(--aira-radius-sm); font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); cursor: pointer; transition: background var(--aira-motion-fast), color var(--aira-motion-fast); }
-#sched-ed .seg button:hover:not([aria-checked="true"]){ color: var(--aira-text-primary); }
-#sched-ed .seg button[aria-checked="true"]{ background: var(--aira-bg-surface); color: var(--aira-text-link); box-shadow: var(--aira-shadow-sm); }
-#sched-ed .days{ display: flex; gap: var(--aira-sp-2); flex-wrap: wrap; }
-#sched-ed .day{ min-width: 48px; height: 36px; padding: 0 var(--aira-sp-3); border-radius: var(--aira-radius-pill); border: 1px solid var(--aira-border-default); background: var(--aira-bg-surface); font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); cursor: pointer; transition: background var(--aira-motion-fast); }
-#sched-ed .day:hover{ border-color: var(--aira-border-strong); }
-#sched-ed .day[aria-pressed="true"]{ background: var(--aira-bg-selected); border-color: var(--aira-border-brand); color: var(--aira-text-link); }
-#sched-ed .radios{ display: flex; flex-direction: column; gap: var(--aira-sp-2); border: 0; margin: 0; padding: 0; }
-#sched-ed .radio{ display: flex; align-items: center; gap: var(--aira-sp-2); min-height: 36px; cursor: pointer; flex-wrap: wrap; }
-#sched-ed .radio input{ appearance: none; width: 16px; height: 16px; margin: 0; border: 1.5px solid var(--aira-border-strong); border-radius: 50%; background: var(--aira-bg-surface); display: grid; place-items: center; cursor: pointer; flex: none; }
-#sched-ed .radio input::after{ content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--aira-btn-primary-bg); transform: scale(0); transition: transform var(--aira-motion-fast); }
-#sched-ed .radio input:checked{ border-color: var(--aira-border-brand); }
-#sched-ed .radio input:checked::after{ transform: scale(1); }
-#sched-ed .radio input:focus-visible{ outline: 2px solid var(--aira-border-focus); outline-offset: 2px; }
-#sched-ed .control{ height: 36px; border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); background: var(--aira-bg-surface); display: inline-flex; align-items: center; gap: var(--aira-sp-2); padding: 0 var(--aira-sp-3); cursor: pointer; transition: border-color var(--aira-motion-fast); text-align: left; }
-#sched-ed .control:hover{ border-color: var(--aira-border-strong); }
-#sched-ed .control:focus-visible, #sched-ed .control[aria-expanded="true"], #sched-ed .control:focus-within{ outline: none; border-color: var(--aira-border-focus); box-shadow: var(--aira-shadow-focus); }
-#sched-ed .control.invalid{ border-color: var(--aira-border-danger); }
-#sched-ed .control .chev{ color: var(--aira-text-tertiary); margin-left: auto; }
-#sched-ed .control .muted{ color: var(--aira-text-tertiary); }
-#sched-ed .control .ph{ color: var(--aira-text-placeholder); }
-#sched-ed .control input{ border: 0; outline: 0; background: transparent; width: 100%; min-width: 0; padding: 0; font-variant-numeric: tabular-nums; }
-#sched-ed .control input::placeholder{ color: var(--aira-text-placeholder); }
-#sched-ed .time{ width: 148px; cursor: text; }
-#sched-ed .time .clock{ color: var(--aira-text-secondary); }
-#sched-ed .menu.time-menu{ width: 148px; min-width: 148px; max-height: 168px; font-variant-numeric: tabular-nums; }
-#sched-ed .menu.time-menu li{ flex-direction: row; align-items: center; justify-content: space-between; padding: 4px var(--aira-sp-3); }
-#sched-ed .menu.time-menu li:hover:not(.active){ background: transparent; }
-#sched-ed .time-menu li .tick{ width: 14px; height: 14px; color: var(--aira-text-link); }
-#sched-ed .cron{ width: 100%; max-width: 280px; cursor: text; font-variant-numeric: tabular-nums; }
-#sched-ed .cron input{ font-family: ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0.02em; }
-#sched-ed .tz{ min-width: 0; }
-#sched-ed .datefield{ width: var(--field-w); flex: none; }
-#sched-ed .datefield .date-val{ font-variant-numeric: tabular-nums; }
-#sched-ed .datefield .default-val{ color: var(--aira-text-secondary); }
-#sched-ed .date-wrap{ align-items: center; gap: var(--aira-sp-1); }
-#sched-ed .link{ background: none; border: 0; padding: 0; font: 500 13px/20px var(--aira-font-sans); color: var(--aira-text-link); cursor: pointer; }
-#sched-ed .link:hover{ text-decoration: underline; }
-#sched-ed .cron-key{ display: flex; gap: var(--aira-sp-3); flex-wrap: wrap; font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .dd-wrap{ position: relative; display: inline-flex; max-width: 100%; }
-#sched-ed .menu{ position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; min-width: 100%; max-height: 280px; overflow-y: auto; background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); box-shadow: var(--aira-shadow-lg); padding: var(--aira-sp-1); margin: 0; list-style: none; }
-#sched-ed .menu.right{ left: auto; right: 0; }
-#sched-ed .menu li{ display: flex; flex-direction: column; padding: 6px var(--aira-sp-3); border-radius: var(--aira-radius-sm); cursor: pointer; white-space: nowrap; }
-#sched-ed .menu li .sub{ font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .menu li[aria-selected="true"]{ color: var(--aira-text-link); font-weight: 500; }
-#sched-ed .menu li.active, #sched-ed .menu li:hover{ background: var(--aira-bg-hover); }
-#sched-ed .menu .sep{ height: 1px; background: var(--aira-border-subtle); margin: var(--aira-sp-1) 0; padding: 0; pointer-events: none; }
-#sched-ed .date-wrap{ position: relative; display: inline-flex; max-width: 100%; }
-#sched-ed .cal{ position: absolute; top: calc(100% + 4px); left: 0; z-index: 30; width: 304px; max-width: calc(100vw - 32px); background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-lg); box-shadow: var(--aira-shadow-lg); padding: var(--aira-sp-4); }
-#sched-ed .cal-head{ display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--aira-sp-3); }
-#sched-ed .cal-head strong{ font: 500 14px/20px var(--aira-font-sans); }
-#sched-ed .cal-head .nav{ display: flex; gap: var(--aira-sp-1); }
-#sched-ed .cal-grid{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
-#sched-ed .cal-dow{ font: 500 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); text-align: center; padding-bottom: var(--aira-sp-2); }
-#sched-ed .cal-day{ position: relative; height: 36px; border: 0; background: transparent; border-radius: var(--aira-radius-md); font: 400 14px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; color: var(--aira-text-primary); cursor: pointer; display: grid; place-items: center; }
-#sched-ed .cal-day:hover:not(:disabled):not(.sel){ background: var(--aira-bg-hover); }
-#sched-ed .cal-day:disabled{ color: var(--aira-text-disabled); cursor: not-allowed; }
-#sched-ed .cal-day.out{ visibility: hidden; }
-#sched-ed .cal-day.today{ box-shadow: inset 0 0 0 1px var(--aira-border-strong); }
-#sched-ed .cal-day.range{ background: var(--aira-bg-muted); border-radius: 0; }
-#sched-ed .cal-day.sel{ background: var(--aira-bg-selected); box-shadow: inset 0 0 0 1px var(--aira-border-brand); color: var(--aira-text-link); font-weight: 500; }
-#sched-ed .cal-day .dot{ position: absolute; bottom: 4px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--aira-text-link); }
-#sched-ed .cal-day.sel .dot{ background: var(--aira-text-link); }
-#sched-ed .cal-day:disabled .dot{ background: var(--aira-text-disabled); }
-#sched-ed .cal-foot{ display: flex; align-items: center; justify-content: flex-start; gap: var(--aira-sp-3); border-top: 1px solid var(--aira-border-subtle); margin-top: var(--aira-sp-3); padding-top: var(--aira-sp-3); }
-#sched-ed .legend{ white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .legend i{ width: 4px; height: 4px; border-radius: 50%; background: var(--aira-text-link); display: inline-block; }
-#sched-ed .readback{ margin-top: var(--aira-sp-5); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); background: var(--aira-bg-surface-alt); }
-#sched-ed .rb-top{ padding: var(--aira-sp-4); display: flex; flex-direction: column; gap: var(--aira-sp-1); }
-#sched-ed .rb-sentence{ font: 500 15px/22px var(--aira-font-sans); color: var(--aira-text-primary); margin: 0; text-wrap: balance; }
-#sched-ed .rb-span{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-secondary); margin: 0; }
-#sched-ed .rb-runs{ border-top: 1px solid var(--aira-border-subtle); padding: var(--aira-sp-3) var(--aira-sp-4); }
-#sched-ed .rb-runs h3{ margin: 0 0 var(--aira-sp-2); font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); text-transform: uppercase; }
-#sched-ed .rb-runs ol{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-#sched-ed .rb-runs li{ display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--aira-sp-3); padding: 6px 0; font-variant-numeric: tabular-nums; }
-#sched-ed .rb-runs li + li{ border-top: 1px dashed var(--aira-border-default); }
-#sched-ed .rb-runs .when{ color: var(--aira-text-primary); }
-#sched-ed .rb-runs .rel{ color: var(--aira-text-tertiary); font-size: 13px; }
-#sched-ed .rb-note{ border-top: 1px solid var(--aira-border-subtle); padding: var(--aira-sp-3) var(--aira-sp-4); display: flex; align-items: flex-start; gap: var(--aira-sp-2); font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-secondary); }
-#sched-ed .rb-note svg{ margin-top: 2px; color: var(--aira-text-tertiary); width: 16px; height: 16px; }
-#sched-ed .rb-empty{ padding: var(--aira-sp-3) var(--aira-sp-4); border-top: 1px solid var(--aira-border-subtle); }
-#sched-ed .stub{ display: flex; align-items: center; justify-content: space-between; padding: var(--aira-sp-4) var(--aira-sp-5); border-top: 1px solid var(--aira-border-default); color: var(--aira-text-secondary); font: 500 14px/20px var(--aira-font-sans); }
-#sched-ed .stub span.muted{ color: var(--aira-text-tertiary); font-weight: 400; }
-#sched-ed .recip-head{ display: flex; align-items: baseline; justify-content: space-between; gap: var(--aira-sp-3); margin-bottom: var(--aira-sp-3); }
-#sched-ed .recip-head h2{ margin: 0; font: 500 16px/24px var(--aira-font-sans); }
-#sched-ed .recip-head .count{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); font-variant-numeric: tabular-nums; }
-#sched-ed .tok-scroll{ display: flex; flex-wrap: wrap; align-items: center; gap: var(--aira-sp-2); max-height: 184px; overflow-y: auto; overscroll-behavior: contain; padding: 6px var(--aira-sp-2); }
-#sched-ed .tokens{ position: relative; min-height: 44px; border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); background: var(--aira-bg-surface); cursor: text; transition: border-color var(--aira-motion-fast); }
-#sched-ed .tokens:hover{ border-color: var(--aira-border-strong); }
-#sched-ed .tokens:focus-within{ border-color: var(--aira-border-focus); box-shadow: var(--aira-shadow-focus); }
-#sched-ed .tokens.invalid{ border-color: var(--aira-border-danger); }
-#sched-ed .tok{ display: inline-flex; align-items: center; gap: 6px; height: 28px; max-width: 100%; padding: 0 var(--aira-sp-1) 0 var(--aira-sp-3); border-radius: var(--aira-radius-pill); background: var(--aira-bg-muted); color: var(--aira-text-primary); font: 400 13px/20px var(--aira-font-sans); }
-#sched-ed .tok .nm{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-#sched-ed .tok .you{ color: var(--aira-text-tertiary); }
-#sched-ed .tok .tok-ic{ width: 14px; height: 14px; margin-left: -2px; }
-#sched-ed .tok .x{ width: 20px; height: 20px; border: 0; border-radius: 50%; background: transparent; color: var(--aira-text-tertiary); display: grid; place-items: center; cursor: pointer; flex: none; padding: 0; }
-#sched-ed .tok .x svg{ width: 12px; height: 12px; }
-#sched-ed .tok .x:hover{ background: var(--aira-bg-hover); color: var(--aira-text-primary); }
-#sched-ed .tok.bad{ cursor: pointer; }
-#sched-ed .tok .tok-alert{ color: var(--aira-text-danger); }
-#sched-ed .more{ height: 28px; padding: 0 var(--aira-sp-3); border: 0; border-radius: var(--aira-radius-pill); background: transparent; color: var(--aira-text-link); font: 500 13px/20px var(--aira-font-sans); cursor: pointer; }
-#sched-ed .more:hover{ background: var(--aira-bg-hover); }
-#sched-ed .tokens input{ flex: 1 0 160px; min-width: 120px; height: 28px; border: 0; outline: 0; background: transparent; padding: 0 var(--aira-sp-1); font: 400 14px/20px var(--aira-font-sans); }
-#sched-ed .tokens input::placeholder{ color: var(--aira-text-placeholder); }
-#sched-ed .suggest{ position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 25; margin: 0; padding: var(--aira-sp-1); list-style: none; background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); box-shadow: var(--aira-shadow-lg); max-height: 280px; overflow-y: auto; }
-#sched-ed .suggest li{ display: flex; flex-direction: column; padding: 6px var(--aira-sp-3); border-radius: var(--aira-radius-sm); cursor: pointer; }
-#sched-ed .suggest li .sub{ font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .suggest li.sug-head{ font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); cursor: default; padding-top: var(--aira-sp-2); }
-#sched-ed .suggest li[data-e].active, #sched-ed .suggest li[data-e]:hover{ background: var(--aira-bg-hover); }
-#sched-ed .recip-msgs{ display: flex; flex-direction: column; gap: var(--aira-sp-1); margin-top: var(--aira-sp-2); }
-#sched-ed .warn-line{ display: flex; align-items: flex-start; gap: 6px; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-status-warning-text); margin: 0; }
-#sched-ed .warn-line svg, #sched-ed .recip-msgs .hint svg{ width: 14px; height: 14px; margin-top: 3px; }
-#sched-ed .recip-msgs .hint{ display: flex; align-items: flex-start; gap: 6px; }
-#sched-ed .recip-note{ margin: var(--aira-sp-2) 0 0; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-@media (max-width: 599px){#sched-ed .tok{ height: 32px; }
-#sched-ed .tok .x{ width: 28px; height: 28px; }
+:is(#sched-ed, .mailscope) .head{ display: flex; align-items: center; gap: var(--aira-sp-3); padding: var(--aira-sp-4) var(--aira-sp-5); border-bottom: 1px solid var(--aira-border-default); flex-wrap: nowrap; }
+:is(#sched-ed, .mailscope) .head h1{ margin: 0; font: 500 16px/24px var(--aira-font-sans); min-width: 0; flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+:is(#sched-ed, .mailscope) .head .ver, :is(#sched-ed, .mailscope) .head .pill, :is(#sched-ed, .mailscope) .head-actions{ flex: none; }
+:is(#sched-ed, .mailscope) .ver{ font: 500 12px/16px var(--aira-font-sans); color: var(--aira-text-secondary); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-pill); padding: 2px var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .pill{ display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font: 500 12px/16px var(--aira-font-sans); border-radius: var(--aira-radius-pill); }
+:is(#sched-ed, .mailscope) .pill::before{ content: ""; width: 6px; height: 6px; border-radius: 50%; flex: none; }
+:is(#sched-ed, .mailscope) .pill-draft{ background: #EEF1F4; color: #364152; }
+:is(#sched-ed, .mailscope) .pill-draft::before{ background: #9AA4B2; }
+:is(#sched-ed, .mailscope) .pill-live{ background: #E7F6EC; color: #185C32; }
+:is(#sched-ed, .mailscope) .pill-live::before{ background: #2A9D55; }
+:is(#sched-ed, .mailscope) .head .grow{ flex: 1; }
+:is(#sched-ed, .mailscope) .head-actions{ display: flex; align-items: center; gap: var(--aira-sp-2); margin-left: auto; }
+:is(#sched-ed, .mailscope) .head-actions .btn{ height: 32px; padding: 0 var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .btn{ height: 36px; padding: 0 var(--aira-sp-4); border-radius: var(--aira-radius-md); border: 1px solid transparent; font: 500 14px/20px var(--aira-font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: var(--aira-sp-2); transition: background var(--aira-motion-fast); white-space: nowrap; }
+:is(#sched-ed, .mailscope) .btn.primary{ background: var(--aira-btn-primary-bg); color: var(--aira-btn-primary-text); }
+:is(#sched-ed, .mailscope) .btn.primary:hover:not(:disabled){ background: var(--aira-btn-primary-bg-hover); }
+:is(#sched-ed, .mailscope) .btn.secondary{ background: var(--aira-btn-secondary-bg); color: var(--aira-btn-secondary-text); border-color: var(--aira-btn-secondary-border); }
+:is(#sched-ed, .mailscope) .btn.secondary:hover:not(:disabled){ background: var(--aira-btn-secondary-bg-hover); }
+:is(#sched-ed, .mailscope) .btn.tertiary{ background: transparent; color: var(--aira-btn-tertiary-text); height: 32px; padding: 0 var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .btn.tertiary:hover{ background: var(--aira-btn-tertiary-bg-hover); }
+:is(#sched-ed, .mailscope) .btn:disabled{ background: var(--aira-bg-disabled); color: var(--aira-text-disabled); border-color: transparent; cursor: not-allowed; }
+:is(#sched-ed, .mailscope) .icon-btn{ width: 32px; height: 32px; display: inline-grid; place-items: center; background: transparent; border: 0; border-radius: var(--aira-radius-sm); color: var(--aira-text-secondary); cursor: pointer; }
+:is(#sched-ed, .mailscope) .icon-btn:hover:not(:disabled){ background: var(--aira-bg-hover); }
+:is(#sched-ed, .mailscope) .icon-btn:disabled{ color: var(--aira-text-disabled); cursor: not-allowed; }
+:is(#sched-ed, .mailscope) .section{ padding: var(--aira-sp-5); }
+:is(#sched-ed, .mailscope) .section-head{ display: flex; align-items: baseline; justify-content: space-between; gap: var(--aira-sp-3); margin-bottom: var(--aira-sp-5); }
+:is(#sched-ed, .mailscope) .section-head h2{ margin: 0; font: 500 16px/24px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .section-head p{ margin: 0; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .rows{ display: grid; grid-template-columns: 88px minmax(0, 1fr); column-gap: var(--aira-sp-4); row-gap: var(--aira-sp-4); align-items: start; }
+:is(#sched-ed, .mailscope) .row-label{ font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); padding-top: 8px; }
+:is(#sched-ed, .mailscope) .row-control{ min-width: 0; display: flex; flex-direction: column; gap: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .inline{ display: flex; align-items: center; gap: var(--aira-sp-2); flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .hint{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); margin: 0; }
+:is(#sched-ed, .mailscope) .err{ display: flex; align-items: flex-start; gap: 6px; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-danger); margin: 0; }
+:is(#sched-ed, .mailscope) .err svg{ width: 14px; height: 14px; margin-top: 3px; }
+:is(#sched-ed, .mailscope) .seg{ display: inline-flex; padding: 2px; gap: 2px; background: var(--aira-bg-muted); border-radius: var(--aira-radius-md); max-width: 100%; flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .seg button{ height: 32px; padding: 0 var(--aira-sp-4); border: 0; background: transparent; border-radius: var(--aira-radius-sm); font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); cursor: pointer; transition: background var(--aira-motion-fast), color var(--aira-motion-fast); }
+:is(#sched-ed, .mailscope) .seg button:hover:not([aria-checked="true"]){ color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .seg button[aria-checked="true"]{ background: var(--aira-bg-surface); color: var(--aira-text-link); box-shadow: var(--aira-shadow-sm); }
+:is(#sched-ed, .mailscope) .days{ display: flex; gap: var(--aira-sp-2); flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .day{ min-width: 48px; height: 36px; padding: 0 var(--aira-sp-3); border-radius: var(--aira-radius-pill); border: 1px solid var(--aira-border-default); background: var(--aira-bg-surface); font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); cursor: pointer; transition: background var(--aira-motion-fast); }
+:is(#sched-ed, .mailscope) .day:hover{ border-color: var(--aira-border-strong); }
+:is(#sched-ed, .mailscope) .day[aria-pressed="true"]{ background: var(--aira-bg-selected); border-color: var(--aira-border-brand); color: var(--aira-text-link); }
+:is(#sched-ed, .mailscope) .radios{ display: flex; flex-direction: column; gap: var(--aira-sp-2); border: 0; margin: 0; padding: 0; }
+:is(#sched-ed, .mailscope) .radio{ display: flex; align-items: center; gap: var(--aira-sp-2); min-height: 36px; cursor: pointer; flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .radio input{ appearance: none; width: 16px; height: 16px; margin: 0; border: 1.5px solid var(--aira-border-strong); border-radius: 50%; background: var(--aira-bg-surface); display: grid; place-items: center; cursor: pointer; flex: none; }
+:is(#sched-ed, .mailscope) .radio input::after{ content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--aira-btn-primary-bg); transform: scale(0); transition: transform var(--aira-motion-fast); }
+:is(#sched-ed, .mailscope) .radio input:checked{ border-color: var(--aira-border-brand); }
+:is(#sched-ed, .mailscope) .radio input:checked::after{ transform: scale(1); }
+:is(#sched-ed, .mailscope) .radio input:focus-visible{ outline: 2px solid var(--aira-border-focus); outline-offset: 2px; }
+:is(#sched-ed, .mailscope) .control{ height: 36px; border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); background: var(--aira-bg-surface); display: inline-flex; align-items: center; gap: var(--aira-sp-2); padding: 0 var(--aira-sp-3); cursor: pointer; transition: border-color var(--aira-motion-fast); text-align: left; }
+:is(#sched-ed, .mailscope) .control:hover{ border-color: var(--aira-border-strong); }
+:is(#sched-ed, .mailscope) .control:focus-visible, :is(#sched-ed, .mailscope) .control[aria-expanded="true"], :is(#sched-ed, .mailscope) .control:focus-within{ outline: none; border-color: var(--aira-border-focus); box-shadow: var(--aira-shadow-focus); }
+:is(#sched-ed, .mailscope) .control.invalid{ border-color: var(--aira-border-danger); }
+:is(#sched-ed, .mailscope) .control .chev{ color: var(--aira-text-tertiary); margin-left: auto; }
+:is(#sched-ed, .mailscope) .control .muted{ color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .control .ph{ color: var(--aira-text-placeholder); }
+:is(#sched-ed, .mailscope) .control input{ border: 0; outline: 0; background: transparent; width: 100%; min-width: 0; padding: 0; font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .control input::placeholder{ color: var(--aira-text-placeholder); }
+:is(#sched-ed, .mailscope) .time{ width: 148px; cursor: text; }
+:is(#sched-ed, .mailscope) .time .clock{ color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .menu.time-menu{ width: 148px; min-width: 148px; max-height: 168px; font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .menu.time-menu li{ flex-direction: row; align-items: center; justify-content: space-between; padding: 4px var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .menu.time-menu li:hover:not(.active){ background: transparent; }
+:is(#sched-ed, .mailscope) .time-menu li .tick{ width: 14px; height: 14px; color: var(--aira-text-link); }
+:is(#sched-ed, .mailscope) .cron{ width: 100%; max-width: 280px; cursor: text; font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .cron input{ font-family: ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0.02em; }
+:is(#sched-ed, .mailscope) .tz{ min-width: 0; }
+:is(#sched-ed, .mailscope) .datefield{ width: var(--field-w); flex: none; }
+:is(#sched-ed, .mailscope) .datefield .date-val{ font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .datefield .default-val{ color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .date-wrap{ align-items: center; gap: var(--aira-sp-1); }
+:is(#sched-ed, .mailscope) .link{ background: none; border: 0; padding: 0; font: 500 13px/20px var(--aira-font-sans); color: var(--aira-text-link); cursor: pointer; }
+:is(#sched-ed, .mailscope) .link:hover{ text-decoration: underline; }
+:is(#sched-ed, .mailscope) .cron-key{ display: flex; gap: var(--aira-sp-3); flex-wrap: wrap; font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .dd-wrap{ position: relative; display: inline-flex; max-width: 100%; }
+:is(#sched-ed, .mailscope) .menu{ position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; min-width: 100%; max-height: 280px; overflow-y: auto; background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); box-shadow: var(--aira-shadow-lg); padding: var(--aira-sp-1); margin: 0; list-style: none; }
+:is(#sched-ed, .mailscope) .menu.right{ left: auto; right: 0; }
+:is(#sched-ed, .mailscope) .menu li{ display: flex; flex-direction: column; padding: 6px var(--aira-sp-3); border-radius: var(--aira-radius-sm); cursor: pointer; white-space: nowrap; }
+:is(#sched-ed, .mailscope) .menu li .sub{ font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .menu li[aria-selected="true"]{ color: var(--aira-text-link); font-weight: 500; }
+:is(#sched-ed, .mailscope) .menu li.active, :is(#sched-ed, .mailscope) .menu li:hover{ background: var(--aira-bg-hover); }
+:is(#sched-ed, .mailscope) .menu .sep{ height: 1px; background: var(--aira-border-subtle); margin: var(--aira-sp-1) 0; padding: 0; pointer-events: none; }
+:is(#sched-ed, .mailscope) .date-wrap{ position: relative; display: inline-flex; max-width: 100%; }
+:is(#sched-ed, .mailscope) .cal{ position: absolute; top: calc(100% + 4px); left: 0; z-index: 30; width: 304px; max-width: calc(100vw - 32px); background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-lg); box-shadow: var(--aira-shadow-lg); padding: var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .cal-head{ display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .cal-head strong{ font: 500 14px/20px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .cal-head .nav{ display: flex; gap: var(--aira-sp-1); }
+:is(#sched-ed, .mailscope) .cal-grid{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+:is(#sched-ed, .mailscope) .cal-dow{ font: 500 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); text-align: center; padding-bottom: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .cal-day{ position: relative; height: 36px; border: 0; background: transparent; border-radius: var(--aira-radius-md); font: 400 14px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; color: var(--aira-text-primary); cursor: pointer; display: grid; place-items: center; }
+:is(#sched-ed, .mailscope) .cal-day:hover:not(:disabled):not(.sel){ background: var(--aira-bg-hover); }
+:is(#sched-ed, .mailscope) .cal-day:disabled{ color: var(--aira-text-disabled); cursor: not-allowed; }
+:is(#sched-ed, .mailscope) .cal-day.out{ visibility: hidden; }
+:is(#sched-ed, .mailscope) .cal-day.today{ box-shadow: inset 0 0 0 1px var(--aira-border-strong); }
+:is(#sched-ed, .mailscope) .cal-day.range{ background: var(--aira-bg-muted); border-radius: 0; }
+:is(#sched-ed, .mailscope) .cal-day.sel{ background: var(--aira-bg-selected); box-shadow: inset 0 0 0 1px var(--aira-border-brand); color: var(--aira-text-link); font-weight: 500; }
+:is(#sched-ed, .mailscope) .cal-day .dot{ position: absolute; bottom: 4px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--aira-text-link); }
+:is(#sched-ed, .mailscope) .cal-day.sel .dot{ background: var(--aira-text-link); }
+:is(#sched-ed, .mailscope) .cal-day:disabled .dot{ background: var(--aira-text-disabled); }
+:is(#sched-ed, .mailscope) .cal-foot{ display: flex; align-items: center; justify-content: flex-start; gap: var(--aira-sp-3); border-top: 1px solid var(--aira-border-subtle); margin-top: var(--aira-sp-3); padding-top: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .legend{ white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .legend i{ width: 4px; height: 4px; border-radius: 50%; background: var(--aira-text-link); display: inline-block; }
+:is(#sched-ed, .mailscope) .readback{ margin-top: var(--aira-sp-5); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); background: var(--aira-bg-surface-alt); }
+:is(#sched-ed, .mailscope) .rb-top{ padding: var(--aira-sp-4); display: flex; flex-direction: column; gap: var(--aira-sp-1); }
+:is(#sched-ed, .mailscope) .rb-sentence{ font: 500 15px/22px var(--aira-font-sans); color: var(--aira-text-primary); margin: 0; text-wrap: balance; }
+:is(#sched-ed, .mailscope) .rb-span{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-secondary); margin: 0; }
+:is(#sched-ed, .mailscope) .rb-runs{ border-top: 1px solid var(--aira-border-subtle); padding: var(--aira-sp-3) var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .rb-runs h3{ margin: 0 0 var(--aira-sp-2); font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); text-transform: uppercase; }
+:is(#sched-ed, .mailscope) .rb-runs ol{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+:is(#sched-ed, .mailscope) .rb-runs li{ display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--aira-sp-3); padding: 6px 0; font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .rb-runs li + li{ border-top: 1px dashed var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .rb-runs .when{ color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .rb-runs .rel{ color: var(--aira-text-tertiary); font-size: 13px; }
+:is(#sched-ed, .mailscope) .rb-note{ border-top: 1px solid var(--aira-border-subtle); padding: var(--aira-sp-3) var(--aira-sp-4); display: flex; align-items: flex-start; gap: var(--aira-sp-2); font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .rb-note svg{ margin-top: 2px; color: var(--aira-text-tertiary); width: 16px; height: 16px; }
+:is(#sched-ed, .mailscope) .rb-empty{ padding: var(--aira-sp-3) var(--aira-sp-4); border-top: 1px solid var(--aira-border-subtle); }
+:is(#sched-ed, .mailscope) .stub{ display: flex; align-items: center; justify-content: space-between; padding: var(--aira-sp-4) var(--aira-sp-5); border-top: 1px solid var(--aira-border-default); color: var(--aira-text-secondary); font: 500 14px/20px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .stub span.muted{ color: var(--aira-text-tertiary); font-weight: 400; }
+:is(#sched-ed, .mailscope) .recip-head{ display: flex; align-items: baseline; justify-content: space-between; gap: var(--aira-sp-3); margin-bottom: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .recip-head h2{ margin: 0; font: 500 16px/24px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .recip-head .count{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .tok-scroll{ display: flex; flex-wrap: wrap; align-items: center; gap: var(--aira-sp-2); max-height: 184px; overflow-y: auto; overscroll-behavior: contain; padding: 6px var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .tokens{ position: relative; min-height: 44px; border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); background: var(--aira-bg-surface); cursor: text; transition: border-color var(--aira-motion-fast); }
+:is(#sched-ed, .mailscope) .tokens:hover{ border-color: var(--aira-border-strong); }
+:is(#sched-ed, .mailscope) .tokens:focus-within{ border-color: var(--aira-border-focus); box-shadow: var(--aira-shadow-focus); }
+:is(#sched-ed, .mailscope) .tokens.invalid{ border-color: var(--aira-border-danger); }
+:is(#sched-ed, .mailscope) .tok{ display: inline-flex; align-items: center; gap: 6px; height: 28px; max-width: 100%; padding: 0 var(--aira-sp-1) 0 var(--aira-sp-3); border-radius: var(--aira-radius-pill); background: var(--aira-bg-muted); color: var(--aira-text-primary); font: 400 13px/20px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .tok .nm{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+:is(#sched-ed, .mailscope) .tok .you{ color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .tok .tok-ic{ width: 14px; height: 14px; margin-left: -2px; }
+:is(#sched-ed, .mailscope) .tok .x{ width: 20px; height: 20px; border: 0; border-radius: 50%; background: transparent; color: var(--aira-text-tertiary); display: grid; place-items: center; cursor: pointer; flex: none; padding: 0; }
+:is(#sched-ed, .mailscope) .tok .x svg{ width: 12px; height: 12px; }
+:is(#sched-ed, .mailscope) .tok .x:hover{ background: var(--aira-bg-hover); color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .tok.bad{ cursor: pointer; }
+:is(#sched-ed, .mailscope) .tok .tok-alert{ color: var(--aira-text-danger); }
+:is(#sched-ed, .mailscope) .more{ height: 28px; padding: 0 var(--aira-sp-3); border: 0; border-radius: var(--aira-radius-pill); background: transparent; color: var(--aira-text-link); font: 500 13px/20px var(--aira-font-sans); cursor: pointer; }
+:is(#sched-ed, .mailscope) .more:hover{ background: var(--aira-bg-hover); }
+:is(#sched-ed, .mailscope) .tokens input{ flex: 1 0 160px; min-width: 120px; height: 28px; border: 0; outline: 0; background: transparent; padding: 0 var(--aira-sp-1); font: 400 14px/20px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .tokens input::placeholder{ color: var(--aira-text-placeholder); }
+:is(#sched-ed, .mailscope) .suggest{ position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 25; margin: 0; padding: var(--aira-sp-1); list-style: none; background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); box-shadow: var(--aira-shadow-lg); max-height: 280px; overflow-y: auto; }
+:is(#sched-ed, .mailscope) .suggest li{ display: flex; flex-direction: column; padding: 6px var(--aira-sp-3); border-radius: var(--aira-radius-sm); cursor: pointer; }
+:is(#sched-ed, .mailscope) .suggest li .sub{ font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .suggest li.sug-head{ font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); cursor: default; padding-top: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .suggest li[data-e].active, :is(#sched-ed, .mailscope) .suggest li[data-e]:hover{ background: var(--aira-bg-hover); }
+:is(#sched-ed, .mailscope) .recip-msgs{ display: flex; flex-direction: column; gap: var(--aira-sp-1); margin-top: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .warn-line{ display: flex; align-items: flex-start; gap: 6px; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-status-warning-text); margin: 0; }
+:is(#sched-ed, .mailscope) .warn-line svg, :is(#sched-ed, .mailscope) .recip-msgs .hint svg{ width: 14px; height: 14px; margin-top: 3px; }
+:is(#sched-ed, .mailscope) .recip-msgs .hint{ display: flex; align-items: flex-start; gap: 6px; }
+:is(#sched-ed, .mailscope) .recip-note{ margin: var(--aira-sp-2) 0 0; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+@media (max-width: 599px){:is(#sched-ed, .mailscope) .tok{ height: 32px; }
+:is(#sched-ed, .mailscope) .tok .x{ width: 28px; height: 28px; }
  }
-#sched-ed .block + .block{ border-top: 1px solid var(--aira-border-default); }
-#sched-ed .blk-head{ display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: start; column-gap: var(--aira-sp-4); padding: var(--aira-sp-5); }
-#sched-ed .blk-head h2{ margin: 0; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-primary); }
-#sched-ed .blk-sum{ margin: 0; min-width: 0; font: 400 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); display: flex; flex-wrap: wrap; column-gap: var(--aira-sp-2); }
-#sched-ed .blk-sum .sum-main{ color: var(--aira-text-primary); }
-#sched-ed .blk-sum .sum-sub{ color: var(--aira-text-tertiary); }
-#sched-ed .blk-sum .sum-err{ display: inline-flex; align-items: flex-start; gap: 4px; color: var(--aira-text-danger); }
-#sched-ed .blk-sum .sum-err svg{ width: 14px; height: 14px; margin-top: 3px; }
-#sched-ed .blk-act{ grid-column: 3; grid-row: 1; justify-self: end; display: inline-flex; align-items: center; margin-block: -6px; }
-#sched-ed .sum-people{ flex-basis: 100%; list-style: none; margin: var(--aira-sp-2) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: var(--aira-sp-4); row-gap: var(--aira-sp-1); color: var(--aira-text-secondary); }
-#sched-ed .sum-people li{ min-width: 0; overflow-wrap: anywhere; }
-#sched-ed .sum-people li.flag{ color: var(--aira-text-danger); }
-#sched-ed .sum-people li.flag svg{ width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; }
-#sched-ed .sum-line{ flex-basis: 100%; }
-#sched-ed .sum-people.one-col{ grid-template-columns: minmax(0, 1fr); }
-#sched-ed .sum-less{ flex-basis: 100%; margin-top: var(--aira-sp-2); }
-@media (max-width: 599px){#sched-ed .sum-people{ grid-template-columns: minmax(0, 1fr); }
+:is(#sched-ed, .mailscope) .block + .block{ border-top: 1px solid var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .blk-head{ display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: start; column-gap: var(--aira-sp-4); padding: var(--aira-sp-5); }
+:is(#sched-ed, .mailscope) .blk-head h2{ margin: 0; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .blk-sum{ margin: 0; min-width: 0; font: 400 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); display: flex; flex-wrap: wrap; column-gap: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .blk-sum .sum-main{ color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .blk-sum .sum-sub{ color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .blk-sum .sum-err{ display: inline-flex; align-items: flex-start; gap: 4px; color: var(--aira-text-danger); }
+:is(#sched-ed, .mailscope) .blk-sum .sum-err svg{ width: 14px; height: 14px; margin-top: 3px; }
+:is(#sched-ed, .mailscope) .blk-act{ grid-column: 3; grid-row: 1; justify-self: end; display: inline-flex; align-items: center; margin-block: -6px; }
+:is(#sched-ed, .mailscope) .sum-people{ flex-basis: 100%; list-style: none; margin: var(--aira-sp-2) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: var(--aira-sp-4); row-gap: var(--aira-sp-1); color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .sum-people li{ min-width: 0; overflow-wrap: anywhere; }
+:is(#sched-ed, .mailscope) .sum-people li.flag{ color: var(--aira-text-danger); }
+:is(#sched-ed, .mailscope) .sum-people li.flag svg{ width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; }
+:is(#sched-ed, .mailscope) .sum-line{ flex-basis: 100%; }
+:is(#sched-ed, .mailscope) .sum-people.one-col{ grid-template-columns: minmax(0, 1fr); }
+:is(#sched-ed, .mailscope) .sum-less{ flex-basis: 100%; margin-top: var(--aira-sp-2); }
+@media (max-width: 599px){:is(#sched-ed, .mailscope) .sum-people{ grid-template-columns: minmax(0, 1fr); }
  }
-#sched-ed .blk-sum .sum-list .link{ font-size: inherit; line-height: inherit; }
-#sched-ed .blk-sum .sum-flag{ color: var(--aira-text-danger); white-space: nowrap; }
-#sched-ed .blk-sum .sum-flag svg{ width: 14px; height: 14px; vertical-align: -2px; margin-right: 3px; }
-#sched-ed .block.open .blk-sum{ display: none; }
-#sched-ed .blk-body{ padding: 0 var(--aira-sp-5) var(--aira-sp-5); }
-#sched-ed .block:not(.open) .blk-body{ display: none; }
-#sched-ed .pv-bar{ display: flex; align-items: center; justify-content: space-between; gap: var(--aira-sp-3); margin-bottom: var(--aira-sp-3); flex-wrap: wrap; }
-#sched-ed .pv-bar .seg button{ height: 28px; padding: 0 var(--aira-sp-3); font-size: 13px; }
-#sched-ed .pv-bar .note{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); display: inline-flex; align-items: center; gap: var(--aira-sp-2); }
-#sched-ed .pv-stage{ background: var(--aira-bg-subtle); border: 1px solid var(--aira-border-subtle); border-radius: var(--aira-radius-md); padding: var(--aira-sp-4); overflow-x: auto; }
-#sched-ed .pv-mail{ margin-inline: auto; max-width: 600px; background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); overflow: hidden; transition: max-width var(--aira-motion-fast); }
-#sched-ed .pv-mail.mobile{ max-width: 375px; }
-#sched-ed .env{ display: grid; grid-template-columns: 64px minmax(0, 1fr); row-gap: var(--aira-sp-1); padding: var(--aira-sp-3) var(--aira-sp-4); border-bottom: 1px solid var(--aira-border-default); font: 400 13px/20px var(--aira-font-sans); }
-#sched-ed .env dt{ color: var(--aira-text-tertiary); }
-#sched-ed .env dd{ margin: 0; color: var(--aira-text-secondary); min-width: 0; overflow-wrap: anywhere; }
-#sched-ed .env dd.subj{ color: var(--aira-text-primary); font-weight: 500; font-size: 14px; }
-#sched-ed .mail-body{ padding: var(--aira-sp-5) var(--aira-sp-4); display: flex; flex-direction: column; gap: var(--aira-sp-4); }
-#sched-ed .mail-body h3{ margin: 0; font: 500 18px/26px var(--aira-font-sans); }
-#sched-ed .mail-body .lede{ margin: 0; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .kpis{ display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--aira-sp-2); }
-#sched-ed .kpi{ background: var(--aira-bg-subtle); border-radius: var(--aira-radius-sm); padding: var(--aira-sp-3); }
-#sched-ed .kpi span{ display: block; font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); }
-#sched-ed .kpi strong{ font: 500 18px/26px var(--aira-font-sans); font-variant-numeric: tabular-nums; }
-#sched-ed .mail-table{ width: 100%; border-collapse: collapse; font: 400 13px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; }
-#sched-ed .mail-table th{ text-align: left; font-weight: 500; color: var(--aira-text-tertiary); padding: 6px 0; border-bottom: 1px solid var(--aira-border-default); }
-#sched-ed .mail-table td{ padding: 6px 0; border-bottom: 1px solid var(--aira-border-subtle); }
-#sched-ed .mail-table th + th, #sched-ed .mail-table td + td{ padding-left: var(--aira-sp-3); }
-@media (max-width: 599px){#sched-ed .head{ flex-wrap: wrap; }
-#sched-ed .blk-head{ grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; padding-inline: var(--aira-sp-4); }
-#sched-ed .blk-head h2{ grid-column: 1; }
-#sched-ed .blk-sum{ grid-column: 1; grid-row: 2; }
-#sched-ed .blk-act{ grid-column: 2; grid-row: 1 / span 2; }
-#sched-ed .block.open .blk-sum{ display: none; }
-#sched-ed .blk-body{ padding-inline: var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .blk-sum .sum-list .link{ font-size: inherit; line-height: inherit; }
+:is(#sched-ed, .mailscope) .blk-sum .sum-flag{ color: var(--aira-text-danger); white-space: nowrap; }
+:is(#sched-ed, .mailscope) .blk-sum .sum-flag svg{ width: 14px; height: 14px; vertical-align: -2px; margin-right: 3px; }
+:is(#sched-ed, .mailscope) .block.open .blk-sum{ display: none; }
+:is(#sched-ed, .mailscope) .blk-body{ padding: 0 var(--aira-sp-5) var(--aira-sp-5); }
+:is(#sched-ed, .mailscope) .block:not(.open) .blk-body{ display: none; }
+:is(#sched-ed, .mailscope) .pv-bar{ display: flex; align-items: center; justify-content: space-between; gap: var(--aira-sp-3); margin-bottom: var(--aira-sp-3); flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .pv-bar .seg button{ height: 28px; padding: 0 var(--aira-sp-3); font-size: 13px; }
+:is(#sched-ed, .mailscope) .pv-bar .note{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); display: inline-flex; align-items: center; gap: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .pv-stage{ background: var(--aira-bg-subtle); border: 1px solid var(--aira-border-subtle); border-radius: var(--aira-radius-md); padding: var(--aira-sp-4); overflow-x: auto; }
+:is(#sched-ed, .mailscope) .pv-mail{ margin-inline: auto; max-width: 600px; background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); overflow: hidden; transition: max-width var(--aira-motion-fast); }
+:is(#sched-ed, .mailscope) .pv-mail.mobile{ max-width: 375px; }
+:is(#sched-ed, .mailscope) .env{ display: grid; grid-template-columns: 64px minmax(0, 1fr); row-gap: var(--aira-sp-1); padding: var(--aira-sp-3) var(--aira-sp-4); border-bottom: 1px solid var(--aira-border-default); font: 400 13px/20px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .env dt{ color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .env dd{ margin: 0; color: var(--aira-text-secondary); min-width: 0; overflow-wrap: anywhere; }
+:is(#sched-ed, .mailscope) .env dd.subj{ color: var(--aira-text-primary); font-weight: 500; font-size: 14px; }
+:is(#sched-ed, .mailscope) .mail-body{ padding: var(--aira-sp-5) var(--aira-sp-4); display: flex; flex-direction: column; gap: var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .mail-body h3{ margin: 0; font: 500 18px/26px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .mail-body .lede{ margin: 0; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .kpis{ display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .kpi{ background: var(--aira-bg-subtle); border-radius: var(--aira-radius-sm); padding: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .kpi span{ display: block; font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .kpi strong{ font: 500 18px/26px var(--aira-font-sans); font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .mail-table{ width: 100%; border-collapse: collapse; font: 400 13px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .mail-table th{ text-align: left; font-weight: 500; color: var(--aira-text-tertiary); padding: 6px 0; border-bottom: 1px solid var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .mail-table td{ padding: 6px 0; border-bottom: 1px solid var(--aira-border-subtle); }
+:is(#sched-ed, .mailscope) .mail-table th + th, :is(#sched-ed, .mailscope) .mail-table td + td{ padding-left: var(--aira-sp-3); }
+@media (max-width: 599px){:is(#sched-ed, .mailscope) .head{ flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .blk-head{ grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; padding-inline: var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .blk-head h2{ grid-column: 1; }
+:is(#sched-ed, .mailscope) .blk-sum{ grid-column: 1; grid-row: 2; }
+:is(#sched-ed, .mailscope) .blk-act{ grid-column: 2; grid-row: 1 / span 2; }
+:is(#sched-ed, .mailscope) .block.open .blk-sum{ display: none; }
+:is(#sched-ed, .mailscope) .blk-body{ padding-inline: var(--aira-sp-4); }
 
 }
-#sched-ed .mail-body{ padding: var(--aira-sp-6) var(--aira-sp-5); gap: 0; }
-#sched-ed .m-sec{ padding-block: var(--aira-sp-5); border-bottom: 1px solid var(--aira-border-default); }
-#sched-ed .m-sec:first-child{ padding-top: 0; }
-#sched-ed .m-title{ margin: 0; font: 600 22px/30px var(--aira-font-sans); color: var(--aira-text-primary); }
-#sched-ed .mail-body .lede{ text-wrap: balance; margin: var(--aira-sp-1) 0 0; font: 400 14px/22px var(--aira-font-sans); color: var(--aira-text-secondary); }
-#sched-ed .m-sec h4{ margin: 0 0 var(--aira-sp-1); font: 600 16px/24px var(--aira-font-sans); color: var(--aira-text-primary); }
-#sched-ed .m-sub{ margin: 0 0 var(--aira-sp-3); font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .m-sec h4 + .m-tablewrap{ margin-top: var(--aira-sp-3); }
-#sched-ed .m-kpis{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--aira-sp-3); }
-#sched-ed .m-kpi{ background: var(--aira-bg-subtle); border-radius: var(--aira-radius-sm); padding: var(--aira-sp-4); }
-#sched-ed .m-kpi span{ display: block; font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); }
-#sched-ed .m-kpi strong{ display: block; margin-top: var(--aira-sp-1); font: 600 24px/32px var(--aira-font-sans); font-variant-numeric: tabular-nums; color: var(--aira-text-primary); }
-#sched-ed .m-kpi strong.up{ color: var(--aira-text-success, #1F7A42); }
-#sched-ed .m-chart{ display: block; width: 100%; height: auto; max-width: 100%; }
-#sched-ed .m-chart .grid{ stroke: var(--aira-border-default); stroke-dasharray: 3 3; }
-#sched-ed .m-chart .tick{ fill: var(--aira-text-tertiary); font: 400 11px var(--aira-font-sans); }
-#sched-ed .m-chart .line{ fill: none; stroke: var(--aira-border-brand); stroke-width: 2.5; stroke-linejoin: round; }
-#sched-ed .m-chart .dot{ fill: var(--aira-border-brand); }
-#sched-ed .m-chart .end{ fill: var(--aira-text-primary); font: 600 12px var(--aira-font-sans); }
-#sched-ed .m-trust{ margin: var(--aira-sp-2) 0 0; font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .m-tablewrap{ overflow-x: auto; }
-#sched-ed .m-table{ width: 100%; border-collapse: collapse; font: 400 14px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; }
-#sched-ed .m-table th{ text-align: left; padding: 10px var(--aira-sp-3); background: var(--aira-bg-subtle); border-bottom: 1px solid var(--aira-border-default); font: 600 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--aira-text-secondary); white-space: nowrap; }
-#sched-ed .m-table td{ padding: 10px var(--aira-sp-3); border-bottom: 1px solid var(--aira-border-subtle); color: var(--aira-text-primary); white-space: nowrap; }
-#sched-ed .m-table tbody tr:nth-child(even) td{ background: var(--aira-bg-surface-alt); }
-#sched-ed .m-table .num{ text-align: right; }
-#sched-ed .m-foot{ padding-top: var(--aira-sp-5); font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .pv-mail.mobile .mail-body{ padding: var(--aira-sp-5) var(--aira-sp-4); }
-#sched-ed .pv-mail.mobile .m-kpi strong{ font-size: 20px; line-height: 28px; }
-#sched-ed .pv-rows{ display: grid; grid-template-columns: 96px minmax(0, 1fr); column-gap: var(--aira-sp-4); row-gap: var(--aira-sp-5); align-items: start; }
-#sched-ed .pv-label{ font: 400 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); }
-#sched-ed .pv-subject{ font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-primary); }
-#sched-ed .pv-card{ border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-lg); overflow: hidden; background: var(--aira-bg-surface); }
-#sched-ed .pv-clip{ position: relative; max-height: 280px; overflow: hidden; padding: var(--aira-sp-4) var(--aira-sp-4) 0; background: var(--aira-bg-subtle); }
-#sched-ed .pv-clip::after{ content: ""; position: absolute; inset: auto 0 0 0; height: 72px; background: linear-gradient(to bottom, transparent, var(--aira-bg-surface)); }
-#sched-ed .pv-clip .pv-mail{ pointer-events: none; }
-#sched-ed .pv-foot{ display: flex; align-items: center; justify-content: space-between; gap: var(--aira-sp-2); padding: var(--aira-sp-2) var(--aira-sp-2) var(--aira-sp-2) var(--aira-sp-4); border-top: 1px solid var(--aira-border-default); flex-wrap: wrap; }
-#sched-ed .pv-meta{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
-#sched-ed .pv-tools{ display: inline-flex; align-items: center; gap: var(--aira-sp-1); }
-#sched-ed .pv-tools .btn{ height: 32px; padding: 0 var(--aira-sp-3); }
-#sched-ed .pv-modal{ position: fixed; inset: 0; z-index: 50; background: rgba(17, 24, 39, 0.48); display: grid; place-items: center; padding: var(--aira-sp-6); }
-#sched-ed .pv-sheet{ width: min(1040px, 100%); height: min(860px, 100%); background: var(--aira-bg-surface); border-radius: var(--aira-radius-lg); box-shadow: var(--aira-shadow-lg); display: flex; flex-direction: column; overflow: hidden; }
-#sched-ed .pv-mhead{ display: flex; align-items: center; gap: var(--aira-sp-3); padding: var(--aira-sp-3) var(--aira-sp-4) var(--aira-sp-3) var(--aira-sp-5); border-bottom: 1px solid var(--aira-border-default); flex-wrap: wrap; }
-#sched-ed .pv-msubj{ margin: 0; flex: 1; min-width: 0; font: 400 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); }
-#sched-ed .pv-msubj strong{ font-weight: 500; color: var(--aira-text-secondary); }
-#sched-ed .pv-tabs{ display: inline-flex; gap: 2px; padding: 2px; background: var(--aira-bg-muted); border-radius: var(--aira-radius-md); }
-#sched-ed .pv-tabs button{ display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 var(--aira-sp-3); border: 0; border-radius: var(--aira-radius-sm); background: transparent; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); cursor: pointer; }
-#sched-ed .pv-tabs button[aria-selected="true"]{ background: var(--aira-bg-surface); color: var(--aira-text-primary); box-shadow: var(--aira-shadow-sm); }
-#sched-ed .pv-div{ width: 1px; height: 24px; background: var(--aira-border-default); }
-#sched-ed .pv-mbody{ flex: 1; overflow: auto; background: var(--aira-bg-subtle); padding: var(--aira-sp-6) var(--aira-sp-4); }
-#sched-ed .pv-mfoot{ display: flex; justify-content: flex-end; padding: var(--aira-sp-3) var(--aira-sp-5); border-top: 1px solid var(--aira-border-default); }
-#sched-ed .pv-code{ margin: 0 auto; max-width: 820px; padding: var(--aira-sp-4); background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); font: 400 12px/18px ui-monospace, "SF Mono", Menlo, monospace; color: var(--aira-text-secondary); white-space: pre-wrap; overflow-wrap: anywhere; }
-@media (max-width: 599px){#sched-ed .pv-rows{ grid-template-columns: minmax(0, 1fr); row-gap: var(--aira-sp-1); }
-#sched-ed .pv-label + .pv-subject{ margin-bottom: var(--aira-sp-3); }
-#sched-ed .pv-modal{ padding: 0; }
-#sched-ed .pv-sheet{ border-radius: 0; height: 100%; }
+:is(#sched-ed, .mailscope) .mail-body{ padding: var(--aira-sp-6) var(--aira-sp-5); gap: 0; }
+:is(#sched-ed, .mailscope) .m-sec{ padding-block: var(--aira-sp-5); border-bottom: 1px solid var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .m-sec:first-child{ padding-top: 0; }
+:is(#sched-ed, .mailscope) .m-title{ margin: 0; font: 600 22px/30px var(--aira-font-sans); color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .mail-body .lede{ text-wrap: balance; margin: var(--aira-sp-1) 0 0; font: 400 14px/22px var(--aira-font-sans); color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .m-sec h4{ margin: 0 0 var(--aira-sp-1); font: 600 16px/24px var(--aira-font-sans); color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .m-sub{ margin: 0 0 var(--aira-sp-3); font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .m-sec h4 + .m-tablewrap{ margin-top: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .m-kpis{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .m-kpi{ background: var(--aira-bg-subtle); border-radius: var(--aira-radius-sm); padding: var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .m-kpi span{ display: block; font: 500 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .m-kpi strong{ display: block; margin-top: var(--aira-sp-1); font: 600 24px/32px var(--aira-font-sans); font-variant-numeric: tabular-nums; color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .m-kpi strong.up{ color: var(--aira-text-success, #1F7A42); }
+:is(#sched-ed, .mailscope) .m-chart{ display: block; width: 100%; height: auto; max-width: 100%; }
+:is(#sched-ed, .mailscope) .m-chart .grid{ stroke: var(--aira-border-default); stroke-dasharray: 3 3; }
+:is(#sched-ed, .mailscope) .m-chart .tick{ fill: var(--aira-text-tertiary); font: 400 11px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .m-chart .line{ fill: none; stroke: var(--aira-border-brand); stroke-width: 2.5; stroke-linejoin: round; }
+:is(#sched-ed, .mailscope) .m-chart .dot{ fill: var(--aira-border-brand); }
+:is(#sched-ed, .mailscope) .m-chart .end{ fill: var(--aira-text-primary); font: 600 12px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .m-trust{ margin: var(--aira-sp-2) 0 0; font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .m-tablewrap{ overflow-x: auto; }
+:is(#sched-ed, .mailscope) .m-table{ width: 100%; border-collapse: collapse; font: 400 14px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; }
+:is(#sched-ed, .mailscope) .m-table th{ text-align: left; padding: 10px var(--aira-sp-3); background: var(--aira-bg-subtle); border-bottom: 1px solid var(--aira-border-default); font: 600 11px/16px var(--aira-font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--aira-text-secondary); white-space: nowrap; }
+:is(#sched-ed, .mailscope) .m-table td{ padding: 10px var(--aira-sp-3); border-bottom: 1px solid var(--aira-border-subtle); color: var(--aira-text-primary); white-space: nowrap; }
+:is(#sched-ed, .mailscope) .m-table tbody tr:nth-child(even) td{ background: var(--aira-bg-surface-alt); }
+:is(#sched-ed, .mailscope) .m-table .num{ text-align: right; }
+:is(#sched-ed, .mailscope) .m-foot{ padding-top: var(--aira-sp-5); font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .pv-mail.mobile .mail-body{ padding: var(--aira-sp-5) var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .pv-mail.mobile .m-kpi strong{ font-size: 20px; line-height: 28px; }
+:is(#sched-ed, .mailscope) .pv-rows{ display: grid; grid-template-columns: 96px minmax(0, 1fr); column-gap: var(--aira-sp-4); row-gap: var(--aira-sp-5); align-items: start; }
+:is(#sched-ed, .mailscope) .pv-label{ font: 400 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .pv-subject{ font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-primary); }
+:is(#sched-ed, .mailscope) .pv-card{ border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-lg); overflow: hidden; background: var(--aira-bg-surface); }
+:is(#sched-ed, .mailscope) .pv-clip{ position: relative; max-height: 280px; overflow: hidden; padding: var(--aira-sp-4) var(--aira-sp-4) 0; background: var(--aira-bg-subtle); }
+:is(#sched-ed, .mailscope) .pv-clip::after{ content: ""; position: absolute; inset: auto 0 0 0; height: 72px; background: linear-gradient(to bottom, transparent, var(--aira-bg-surface)); }
+:is(#sched-ed, .mailscope) .pv-clip .pv-mail{ pointer-events: none; }
+:is(#sched-ed, .mailscope) .pv-foot{ display: flex; align-items: center; justify-content: space-between; gap: var(--aira-sp-2); padding: var(--aira-sp-2) var(--aira-sp-2) var(--aira-sp-2) var(--aira-sp-4); border-top: 1px solid var(--aira-border-default); flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .pv-meta{ font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
+:is(#sched-ed, .mailscope) .pv-tools{ display: inline-flex; align-items: center; gap: var(--aira-sp-1); }
+:is(#sched-ed, .mailscope) .pv-tools .btn{ height: 32px; padding: 0 var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .pv-modal{ position: fixed; inset: 0; z-index: 50; background: rgba(17, 24, 39, 0.48); display: grid; place-items: center; padding: var(--aira-sp-6); }
+:is(#sched-ed, .mailscope) .pv-sheet{ width: min(1040px, 100%); height: min(860px, 100%); background: var(--aira-bg-surface); border-radius: var(--aira-radius-lg); box-shadow: var(--aira-shadow-lg); display: flex; flex-direction: column; overflow: hidden; }
+:is(#sched-ed, .mailscope) .pv-mhead{ display: flex; align-items: center; gap: var(--aira-sp-3); padding: var(--aira-sp-3) var(--aira-sp-4) var(--aira-sp-3) var(--aira-sp-5); border-bottom: 1px solid var(--aira-border-default); flex-wrap: wrap; }
+:is(#sched-ed, .mailscope) .pv-msubj{ margin: 0; flex: 1; min-width: 0; font: 400 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .pv-msubj strong{ font-weight: 500; color: var(--aira-text-secondary); }
+:is(#sched-ed, .mailscope) .pv-tabs{ display: inline-flex; gap: 2px; padding: 2px; background: var(--aira-bg-muted); border-radius: var(--aira-radius-md); }
+:is(#sched-ed, .mailscope) .pv-tabs button{ display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 var(--aira-sp-3); border: 0; border-radius: var(--aira-radius-sm); background: transparent; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); cursor: pointer; }
+:is(#sched-ed, .mailscope) .pv-tabs button[aria-selected="true"]{ background: var(--aira-bg-surface); color: var(--aira-text-primary); box-shadow: var(--aira-shadow-sm); }
+:is(#sched-ed, .mailscope) .pv-div{ width: 1px; height: 24px; background: var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .pv-mbody{ flex: 1; overflow: auto; background: var(--aira-bg-subtle); padding: var(--aira-sp-6) var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .pv-mfoot{ display: flex; justify-content: flex-end; padding: var(--aira-sp-3) var(--aira-sp-5); border-top: 1px solid var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .pv-code{ margin: 0 auto; max-width: 820px; padding: var(--aira-sp-4); background: var(--aira-bg-surface); border: 1px solid var(--aira-border-default); border-radius: var(--aira-radius-md); font: 400 12px/18px ui-monospace, "SF Mono", Menlo, monospace; color: var(--aira-text-secondary); white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 599px){:is(#sched-ed, .mailscope) .pv-rows{ grid-template-columns: minmax(0, 1fr); row-gap: var(--aira-sp-1); }
+:is(#sched-ed, .mailscope) .pv-label + .pv-subject{ margin-bottom: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .pv-modal{ padding: 0; }
+:is(#sched-ed, .mailscope) .pv-sheet{ border-radius: 0; height: 100%; }
 
 }
-#sched-ed .pv-subject{ display: flex; align-items: flex-start; justify-content: space-between; gap: var(--aira-sp-3); }
-#sched-ed .pv-subject span{ padding-top: 0; min-width: 0; overflow-wrap: anywhere; }
-#sched-ed .pv-subject .icon-btn{ margin-block: -6px; flex: none; }
-#sched-ed .pv-subj-edit{ display: flex; flex-direction: column; gap: var(--aira-sp-2); margin-top: -8px; }
-#sched-ed .subj-line{ flex-wrap: nowrap; }
-#sched-ed .subj-input{ flex: 1; min-width: 0; cursor: text; }
-#sched-ed .btn.sm{ height: 32px; padding: 0 var(--aira-sp-3); }
-#sched-ed .blk-act{ gap: var(--aira-sp-2); }
-#sched-ed .dom-grid{ display: grid; grid-template-columns: repeat(7, 40px); gap: var(--aira-sp-1); }
-#sched-ed .dom-day{ height: 36px; border: 1px solid transparent; border-radius: var(--aira-radius-md); background: transparent; font: 400 14px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; color: var(--aira-text-primary); cursor: pointer; }
-#sched-ed .dom-day:hover:not([aria-pressed="true"]){ background: var(--aira-bg-hover); }
-#sched-ed .dom-day[aria-pressed="true"]{ background: var(--aira-bg-selected); border-color: var(--aira-border-brand); color: var(--aira-text-link); font-weight: 500; }
-#sched-ed .dom-last{ grid-column: span 4; }
-@media (max-width: 599px){#sched-ed .dom-grid{ grid-template-columns: repeat(7, minmax(36px, 44px)); }
-#sched-ed .dom-day{ height: 44px; }
+:is(#sched-ed, .mailscope) .pv-subject{ display: flex; align-items: flex-start; justify-content: space-between; gap: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .pv-subject span{ padding-top: 0; min-width: 0; overflow-wrap: anywhere; }
+:is(#sched-ed, .mailscope) .pv-subject .icon-btn{ margin-block: -6px; flex: none; }
+:is(#sched-ed, .mailscope) .pv-subj-edit{ display: flex; flex-direction: column; gap: var(--aira-sp-2); margin-top: -8px; }
+:is(#sched-ed, .mailscope) .subj-line{ flex-wrap: nowrap; }
+:is(#sched-ed, .mailscope) .subj-input{ flex: 1; min-width: 0; cursor: text; }
+:is(#sched-ed, .mailscope) .btn.sm{ height: 32px; padding: 0 var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .blk-act{ gap: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .dom-grid{ display: grid; grid-template-columns: repeat(7, 40px); gap: var(--aira-sp-1); }
+:is(#sched-ed, .mailscope) .dom-day{ height: 36px; border: 1px solid transparent; border-radius: var(--aira-radius-md); background: transparent; font: 400 14px/20px var(--aira-font-sans); font-variant-numeric: tabular-nums; color: var(--aira-text-primary); cursor: pointer; }
+:is(#sched-ed, .mailscope) .dom-day:hover:not([aria-pressed="true"]){ background: var(--aira-bg-hover); }
+:is(#sched-ed, .mailscope) .dom-day[aria-pressed="true"]{ background: var(--aira-bg-selected); border-color: var(--aira-border-brand); color: var(--aira-text-link); font-weight: 500; }
+:is(#sched-ed, .mailscope) .dom-last{ grid-column: span 4; }
+@media (max-width: 599px){:is(#sched-ed, .mailscope) .dom-grid{ grid-template-columns: repeat(7, minmax(36px, 44px)); }
+:is(#sched-ed, .mailscope) .dom-day{ height: 44px; }
  }
-#sched-ed .pv-card{ position: relative; cursor: pointer; transition: border-color var(--aira-motion-fast), box-shadow var(--aira-motion-fast); }
-#sched-ed .pv-card:hover{ border-color: var(--aira-border-strong); box-shadow: var(--aira-shadow-sm); }
-#sched-ed .pv-card:focus-visible{ outline: 2px solid var(--aira-border-focus); outline-offset: 2px; }
-#sched-ed .pv-card .pv-clip{ padding: 0; background: var(--aira-bg-surface); max-height: 300px; }
-#sched-ed .pv-card .pv-clip .pv-mail{ border: 0; border-radius: 0; max-width: none; }
-#sched-ed .pv-card .pv-clip::after{ height: 120px; background: linear-gradient(to bottom, transparent 0, var(--aira-bg-surface) 60%); }
-#sched-ed .pv-open{ position: absolute; inset: auto 0 0 0; display: flex; justify-content: center; padding: var(--aira-sp-3); }
-#sched-ed .pv-open-link{ display: inline-flex; align-items: center; gap: 6px; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-link); }
-#sched-ed .pv-open-link svg{ width: 14px; height: 14px; }
-#sched-ed .pv-card:hover .pv-open-link{ text-decoration: underline; }
-#sched-ed .repeats-alt{ margin: 0; font: 400 13px/20px var(--aira-font-sans); }
-#sched-ed .repeats-alt .hint{ display: inline; }
-#sched-ed .cron-grid{ display: grid; grid-template-columns: repeat(5, minmax(56px, max-content)); column-gap: var(--aira-sp-2); }
-#sched-ed .cron-cell{ display: flex; flex-direction: column; gap: var(--aira-sp-1); min-width: 0; }
-#sched-ed .cron-box{ width: 100%; padding: 0 var(--aira-sp-2); cursor: text; }
-#sched-ed .cron-box input{ text-align: center; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
-#sched-ed .cron-name{ font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); text-align: center; white-space: nowrap; }
-#sched-ed .repeats-alt:only-child, #sched-ed #repeats[hidden] + .repeats-alt{ min-height: 36px; display: flex; align-items: center; flex-wrap: wrap; column-gap: 4px; }
-@media (max-width: 599px){#sched-ed .cron-grid{ grid-template-columns: repeat(5, minmax(0, 1fr)); }
-#sched-ed .cron-name{ white-space: normal; }
+:is(#sched-ed, .mailscope) .pv-card{ position: relative; cursor: pointer; transition: border-color var(--aira-motion-fast), box-shadow var(--aira-motion-fast); }
+:is(#sched-ed, .mailscope) .pv-card:hover{ border-color: var(--aira-border-strong); box-shadow: var(--aira-shadow-sm); }
+:is(#sched-ed, .mailscope) .pv-card:focus-visible{ outline: 2px solid var(--aira-border-focus); outline-offset: 2px; }
+:is(#sched-ed, .mailscope) .pv-card .pv-clip{ padding: 0; background: var(--aira-bg-surface); max-height: 300px; }
+:is(#sched-ed, .mailscope) .pv-card .pv-clip .pv-mail{ border: 0; border-radius: 0; max-width: none; }
+:is(#sched-ed, .mailscope) .pv-card .pv-clip::after{ height: 120px; background: linear-gradient(to bottom, transparent 0, var(--aira-bg-surface) 60%); }
+:is(#sched-ed, .mailscope) .pv-open{ position: absolute; inset: auto 0 0 0; display: flex; justify-content: center; padding: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .pv-open-link{ display: inline-flex; align-items: center; gap: 6px; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-link); }
+:is(#sched-ed, .mailscope) .pv-open-link svg{ width: 14px; height: 14px; }
+:is(#sched-ed, .mailscope) .pv-card:hover .pv-open-link{ text-decoration: underline; }
+:is(#sched-ed, .mailscope) .repeats-alt{ margin: 0; font: 400 13px/20px var(--aira-font-sans); }
+:is(#sched-ed, .mailscope) .repeats-alt .hint{ display: inline; }
+:is(#sched-ed, .mailscope) .cron-grid{ display: grid; grid-template-columns: repeat(5, minmax(56px, max-content)); column-gap: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .cron-cell{ display: flex; flex-direction: column; gap: var(--aira-sp-1); min-width: 0; }
+:is(#sched-ed, .mailscope) .cron-box{ width: 100%; padding: 0 var(--aira-sp-2); cursor: text; }
+:is(#sched-ed, .mailscope) .cron-box input{ text-align: center; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+:is(#sched-ed, .mailscope) .cron-name{ font: 400 12px/16px var(--aira-font-sans); color: var(--aira-text-tertiary); text-align: center; white-space: nowrap; }
+:is(#sched-ed, .mailscope) .repeats-alt:only-child, :is(#sched-ed, .mailscope) #repeats[hidden] + .repeats-alt{ min-height: 36px; display: flex; align-items: center; flex-wrap: wrap; column-gap: 4px; }
+@media (max-width: 599px){:is(#sched-ed, .mailscope) .cron-grid{ grid-template-columns: repeat(5, minmax(0, 1fr)); }
+:is(#sched-ed, .mailscope) .cron-name{ white-space: normal; }
  }
-#sched-ed .toast{ position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--aira-text-primary); color: var(--aira-bg-surface); padding: var(--aira-sp-3) var(--aira-sp-4); border-radius: var(--aira-radius-md); box-shadow: var(--aira-shadow-lg); font: 400 14px/20px var(--aira-font-sans); max-width: calc(100vw - 32px); }
-@media (max-width: 599px){#sched-ed .rows{ grid-template-columns: minmax(0, 1fr); row-gap: var(--aira-sp-2); }
-#sched-ed .row-label{ padding-top: var(--aira-sp-3); }
-#sched-ed .section, #sched-ed .head, #sched-ed .stub{ padding-inline: var(--aira-sp-4); }
-#sched-ed .day{ min-width: 44px; height: 44px; }
-#sched-ed .seg{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
-#sched-ed .seg button{ padding: 0 var(--aira-sp-2); min-height: 40px; }
-#sched-ed .section-head{ flex-direction: column; gap: 0; }
-#sched-ed .control, #sched-ed .btn{ min-height: 44px; }
-#sched-ed .datefield{ min-width: 0; max-width: 100%; }
+:is(#sched-ed, .mailscope) .toast{ position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--aira-text-primary); color: var(--aira-bg-surface); padding: var(--aira-sp-3) var(--aira-sp-4); border-radius: var(--aira-radius-md); box-shadow: var(--aira-shadow-lg); font: 400 14px/20px var(--aira-font-sans); max-width: calc(100vw - 32px); }
+@media (max-width: 599px){:is(#sched-ed, .mailscope) .rows{ grid-template-columns: minmax(0, 1fr); row-gap: var(--aira-sp-2); }
+:is(#sched-ed, .mailscope) .row-label{ padding-top: var(--aira-sp-3); }
+:is(#sched-ed, .mailscope) .section, :is(#sched-ed, .mailscope) .head, :is(#sched-ed, .mailscope) .stub{ padding-inline: var(--aira-sp-4); }
+:is(#sched-ed, .mailscope) .day{ min-width: 44px; height: 44px; }
+:is(#sched-ed, .mailscope) .seg{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
+:is(#sched-ed, .mailscope) .seg button{ padding: 0 var(--aira-sp-2); min-height: 40px; }
+:is(#sched-ed, .mailscope) .section-head{ flex-direction: column; gap: 0; }
+:is(#sched-ed, .mailscope) .control, :is(#sched-ed, .mailscope) .btn{ min-height: 44px; }
+:is(#sched-ed, .mailscope) .datefield{ min-width: 0; max-width: 100%; }
 
 }
-@media (prefers-reduced-motion: reduce){#sched-ed *{ transition: none !important; }
+@media (prefers-reduced-motion: reduce){:is(#sched-ed, .mailscope) *{ transition: none !important; }
  }
 
 
@@ -552,30 +571,43 @@ button,input,textarea{font-family:inherit}
 #sched-ed .pv-chat { margin: 0; font: 400 13px/20px var(--aira-font-sans); }
 #sched-ed .pv-chat .hint { color: var(--aira-text-tertiary); }
 #sched-ed .pv-modal { z-index: 20; }
+#sched-ed .pv-card.expanded { cursor: default; }
+#sched-ed .pv-card.expanded:hover { border-color: var(--aira-border-default); box-shadow: none; }
+#sched-ed .pv-card.expanded .pv-clip { max-height: none; }
+#sched-ed .pv-card.expanded .pv-clip::after { display: none; }
+#sched-ed .pv-card.expanded .pv-open { position: static; inset: auto; display: flex; justify-content: center; padding: 12px; background: none; border-top: 1px solid var(--aira-border-subtle); }
+#sched-ed button.pv-open-link { background: none; border: 0; padding: 0; cursor: pointer; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-link); }
+#sched-ed .pv-card.expanded:hover .pv-open-link { text-decoration: none; }
+#sched-ed .pv-card.expanded .pv-open-link:hover { text-decoration: underline; }
+#sched-ed.drawermode #repeats-alt { display: none; } /* no cron option in the listing drawer */
+#sched-ed.drawermode #lbl-starts, #sched-ed.drawermode #starts-ctl, #sched-ed.drawermode #lbl-ends, #sched-ed.drawermode #ends-ctl { display: none; }
+#sched-ed.readonly #blk-schedule .blk-body, #sched-ed.readonly #blk-recipients .blk-body { pointer-events: none; opacity: .6; }
+#sched-ed.readonly #readback { display: none; }
 #sched-ed .pill-paused { background: #FFF6E0; color: #8A5500; } #sched-ed .pill-paused::before { background: #E89B1A; }
 #sched-ed .pill-ended, #sched-ed .pill-archived { background: #EEF1F4; color: #364152; } #sched-ed .pill-ended::before, #sched-ed .pill-archived::before { background: #9AA4B2; }
 #sched-ed.chatmode { height: 100%; background: var(--aira-bg-canvas); }
+#sched-ed.chatmode .chat-scroll { padding-top: 64px; } /* room for the prototype strip */
 #sched-ed.chatmode .blk-head, #sched-ed.chatmode .blk-body { padding-inline: 20px; }
 #sched-ed.chatmode .block + .block::before { left: 20px; right: 20px; }
 #sched-ed.chatmode .app{ display: flex; height: 100%; overflow: hidden; }
-#sched-ed .pane{ flex: 1 1 56%; min-width: 0; overflow-y: auto; background: var(--aira-bg-surface); border-inline-start: 1px solid var(--aira-border-default); }
-#sched-ed .pane > .panel{ max-width: none; margin: 0; border: 0; border-radius: 0; box-shadow: none; min-height: 100%; }
-#sched-ed .pane .head{ position: sticky; top: 0; z-index: 10; background: var(--aira-bg-surface); }
-#sched-ed .chat-col{flex:1 1 44%;min-width:0;background:var(--aira-bg-canvas);display:flex;flex-direction:column;overflow:hidden}
-#sched-ed .chat-scroll{flex:1;overflow:auto;padding:var(--aira-sp-5);display:flex;flex-direction:column;gap:var(--aira-sp-5)}
-#sched-ed .chat-note{color:var(--aira-text-tertiary);font-size:12px}
-#sched-ed .chat-msg{font-size:14px;line-height:22px}
-#sched-ed .chat-msg.user{align-self:flex-end;max-width:80%;background:var(--aira-bg-muted);color:var(--aira-text-primary);padding:var(--aira-sp-3) var(--aira-sp-4);border-radius:var(--aira-radius-lg)}
-#sched-ed .chat-msg.ai{align-self:stretch;color:var(--aira-text-primary)}
-#sched-ed .composer-wrap{padding:var(--aira-sp-3) var(--aira-sp-5) var(--aira-sp-5)}
-#sched-ed .composer{display:flex;align-items:center;gap:var(--aira-sp-1);background:var(--aira-bg-default);border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-pill);padding:var(--aira-sp-1);box-shadow:var(--aira-shadow-sm)}
-#sched-ed .composer:focus-within{border-color:var(--aira-border-focus);box-shadow:var(--aira-shadow-focus)}
-#sched-ed .composer input{flex:1;border:none;outline:none;background:none;font:inherit;color:var(--aira-text-primary);height:36px;padding:0 var(--aira-sp-2)}
-#sched-ed .composer .ic{width:36px;height:36px;border-radius:var(--aira-radius-pill);display:grid;place-items:center;border:none;background:none;color:var(--aira-text-tertiary);cursor:pointer;flex:none}
-#sched-ed .composer .ic:hover{background:var(--aira-bg-hover);color:var(--aira-text-secondary)}
-#sched-ed .composer .ic:focus-visible{outline:2px solid transparent;box-shadow:var(--aira-shadow-focus)}
-#sched-ed .composer .send{background:var(--aira-bg-muted)}
-#sched-ed .composer .send.on{background:var(--aira-bg-brand);color:var(--aira-text-inverse)}
+:is(#sched-ed, .mailscope) .pane{ flex: 1 1 56%; min-width: 0; overflow-y: auto; background: var(--aira-bg-surface); border-inline-start: 1px solid var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .pane > .panel{ max-width: none; margin: 0; border: 0; border-radius: 0; box-shadow: none; min-height: 100%; }
+:is(#sched-ed, .mailscope) .pane .head{ position: sticky; top: 0; z-index: 10; background: var(--aira-bg-surface); }
+:is(#sched-ed, .mailscope) .chat-col{flex:1 1 44%;min-width:0;background:var(--aira-bg-canvas);display:flex;flex-direction:column;overflow:hidden}
+:is(#sched-ed, .mailscope) .chat-scroll{flex:1;overflow:auto;padding:var(--aira-sp-5);display:flex;flex-direction:column;gap:var(--aira-sp-5)}
+:is(#sched-ed, .mailscope) .chat-note{color:var(--aira-text-tertiary);font-size:12px}
+:is(#sched-ed, .mailscope) .chat-msg{font-size:14px;line-height:22px}
+:is(#sched-ed, .mailscope) .chat-msg.user{align-self:flex-end;max-width:80%;background:var(--aira-bg-muted);color:var(--aira-text-primary);padding:var(--aira-sp-3) var(--aira-sp-4);border-radius:var(--aira-radius-lg)}
+:is(#sched-ed, .mailscope) .chat-msg.ai{align-self:stretch;color:var(--aira-text-primary)}
+:is(#sched-ed, .mailscope) .composer-wrap{padding:var(--aira-sp-3) var(--aira-sp-5) var(--aira-sp-5)}
+:is(#sched-ed, .mailscope) .composer{display:flex;align-items:center;gap:var(--aira-sp-1);background:var(--aira-bg-default);border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-pill);padding:var(--aira-sp-1);box-shadow:var(--aira-shadow-sm)}
+:is(#sched-ed, .mailscope) .composer:focus-within{border-color:var(--aira-border-focus);box-shadow:var(--aira-shadow-focus)}
+:is(#sched-ed, .mailscope) .composer input{flex:1;border:none;outline:none;background:none;font:inherit;color:var(--aira-text-primary);height:36px;padding:0 var(--aira-sp-2)}
+:is(#sched-ed, .mailscope) .composer .ic{width:36px;height:36px;border-radius:var(--aira-radius-pill);display:grid;place-items:center;border:none;background:none;color:var(--aira-text-tertiary);cursor:pointer;flex:none}
+:is(#sched-ed, .mailscope) .composer .ic:hover{background:var(--aira-bg-hover);color:var(--aira-text-secondary)}
+:is(#sched-ed, .mailscope) .composer .ic:focus-visible{outline:2px solid transparent;box-shadow:var(--aira-shadow-focus)}
+:is(#sched-ed, .mailscope) .composer .send{background:var(--aira-bg-muted)}
+:is(#sched-ed, .mailscope) .composer .send.on{background:var(--aira-bg-brand);color:var(--aira-text-inverse)}
 
 </style>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -601,7 +633,7 @@ button,input,textarea{font-family:inherit}
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h6M16 13H8M16 17H8M10 9H8"/></symbol>
 </svg>
 <script>
-const ED_MARKUP = '\n<section class="block open" id="blk-schedule" aria-labelledby="sched-h">\n  <div class="blk-head"><h2 id="sched-h">Schedule</h2><p class="blk-sum" id="sum-schedule"></p><span class="blk-act" id="act-schedule"></span></div>\n  <div class="blk-body" id="body-schedule"><div class="rows">\n    <div class="row-label" id="lbl-repeats">Repeats</div>\n    <div class="row-control"><div class="seg" role="radiogroup" aria-labelledby="lbl-repeats" id="repeats"></div><p class="repeats-alt" id="repeats-alt"></p></div>\n    <div class="row-label" id="lbl-on">On</div><div class="row-control" id="on-ctl"></div>\n    <div class="row-label" id="lbl-at">At</div><div class="row-control" id="at-ctl"></div>\n    <div class="row-label" id="lbl-starts">Starts</div><div class="row-control" id="starts-ctl"></div>\n    <div class="row-label" id="lbl-ends">Ends</div><div class="row-control" id="ends-ctl"></div>\n  </div><div class="readback" id="readback" aria-live="polite"></div></div>\n</section>\n<section class="block open" id="blk-recipients" aria-labelledby="recip-h">\n  <div class="blk-head"><h2 id="recip-h">Recipients</h2><p class="blk-sum" id="sum-recipients"></p><span class="blk-act" id="act-recipients"></span></div>\n  <div class="blk-body" id="body-recipients"><div id="recip"></div></div>\n</section>\n<section class="block open" id="blk-preview" aria-labelledby="prev-h">\n  <div class="blk-head"><h2 id="prev-h">Preview</h2><span id="sum-preview" hidden></span><span class="blk-act" id="act-preview"></span></div>\n  <div class="blk-body" id="body-preview"></div>\n</section>';
+const ED_MARKUP = '\n<section class="block open" id="blk-schedule" aria-labelledby="sched-h">\n  <div class="blk-head"><h2 id="sched-h">Schedule</h2><p class="blk-sum" id="sum-schedule"></p><span class="blk-act" id="act-schedule"></span></div>\n  <div class="blk-body" id="body-schedule"><div class="rows">\n    <div class="row-label" id="lbl-repeats">Repeats</div>\n    <div class="row-control"><div class="seg" role="radiogroup" aria-labelledby="lbl-repeats" id="repeats"></div><p class="repeats-alt" id="repeats-alt"></p></div>\n    <div class="row-label" id="lbl-on">On</div><div class="row-control" id="on-ctl"></div>\n    <div class="row-label" id="lbl-at">At</div><div class="row-control" id="at-ctl"></div>\n    <div class="row-label" id="lbl-starts">Starts</div><div class="row-control" id="starts-ctl"></div>\n    <div class="row-label" id="lbl-ends">Ends</div><div class="row-control" id="ends-ctl"></div>\n  </div><div class="readback" id="readback" aria-live="polite"></div></div>\n</section>\n<section class="block open" id="blk-recipients" aria-labelledby="recip-h">\n  <div class="blk-head"><h2 id="recip-h">Recipients</h2><p class="blk-sum" id="sum-recipients"></p><span class="blk-act" id="act-recipients"></span></div>\n  <div class="blk-body" id="body-recipients"><div id="recip"></div></div>\n</section>\n<section class="block open" id="blk-preview" aria-labelledby="prev-h">\n  <div class="blk-head"><h2 id="prev-h">Preview</h2><span id="sum-preview" hidden></span><span class="blk-act" id="act-preview"></span><p class="pv-note" style="grid-column:1 / -1;grid-row:2;margin:2px 0 0;font:400 13px/20px var(--aira-font-sans);color:var(--aira-text-tertiary)">Preview generated Oct 14, 2026 at 5:46 PM. Not live.</p></div>\n  <div class="blk-body" id="body-preview"></div>\n</section>';
 function mountEditor(init, onChange, onChat) {
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -1290,7 +1322,7 @@ function mountEditor(init, onChange, onChat) {
 
 
   /* ---------- collapsible blocks ---------- */
-  const open = { schedule: false, recipients: false, preview: true };
+  const open = init.alwaysOpen ? { schedule: true, recipients: true, preview: true } : { schedule: false, recipients: false, preview: true };
   let pvMode = 'desktop';
   function scheduleSummary() {
     const rule = buildRule();
@@ -1342,7 +1374,7 @@ function mountEditor(init, onChange, onChat) {
     ['schedule', 'recipients', 'preview'].forEach(k => {
       $('#blk-' + k).classList.toggle('open', open[k]);
       const act = $('#act-' + k);
-      if (k === 'preview') { act.innerHTML = ''; return; } // always open
+      if (k === 'preview' || init.alwaysOpen) { act.innerHTML = ''; return; } // always open
       {
         if (open[k]) {
           act.innerHTML = `<button type="button" class="btn tertiary sm" data-cancel>Cancel</button><button type="button" class="btn primary sm" data-done aria-controls="body-${k}" ${sectionChanged(k) ? '' : 'disabled'}>Done</button>`;
@@ -1411,6 +1443,7 @@ function mountEditor(init, onChange, onChat) {
           <footer class="m-foot">You get this email because you're on the ${esc(init.name)} schedule.</footer>
         </div>`;
   }
+  let pvOpen = false;
   function renderPreview() {
     const body = $('#body-preview');
     body.innerHTML = `<div class="pv-rows">
@@ -1422,16 +1455,21 @@ function mountEditor(init, onChange, onChat) {
           </div>`
         : `<div class="pv-subject"><span>${subjectLine()}</span>${init.inChat ? `<button type="button" class="icon-btn" id="subj-edit" aria-label="Edit subject">${icon('pencil')}</button>` : ''}</div>`}
         <div class="pv-label">Message body</div>
-        <div class="pv-card" id="pv-card" role="button" tabindex="0" aria-label="Open the full email">
+        <div class="pv-card${init.inlineEmail && pvOpen ? ' expanded' : ''}" id="pv-card" ${init.inlineEmail && pvOpen ? '' : 'role="button" tabindex="0" '}aria-label="${init.inlineEmail && pvOpen ? 'Email' : 'Open the full email'}">
           <div class="pv-clip" aria-hidden="true"><article class="pv-mail">${mailBody()}</article></div>
-          <div class="pv-open"><span class="pv-open-link">Open full email ${icon('expand')}</span></div>
+          <div class="pv-open">${init.inlineEmail && pvOpen ? `<button type="button" class="pv-open-link" id="pv-collapse">Collapse email ${icon('chev-up')}</button>` : `<span class="pv-open-link">Open full email ${icon(init.inlineEmail ? 'chev-down' : 'expand')}</span>`}</div>
         </div>
         ${init.inChat ? '' : `<div class="pv-label"></div>
         <p class="pv-chat"><span class="hint">Want to change the subject or the report?</span> <button type="button" class="link" id="pv-chat">Edit in chat</button></p>`}
       </div>`;
     const card = $('#pv-card');
-    card.onclick = () => openPreview('desktop', card);
-    card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPreview('desktop', card); } };
+    const openIt = () => { if (init.inlineEmail) { pvOpen = true; renderPreview(); } else openPreview('desktop', card); };
+    if (!(init.inlineEmail && pvOpen)) {
+      card.onclick = openIt;
+      card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openIt(); } };
+    }
+    const pc = $('#pv-collapse');
+    if (pc) pc.onclick = () => { pvOpen = false; renderPreview(); $('#pv-card').focus(); };
     if ($('#pv-chat')) $('#pv-chat').onclick = () => onChat && onChat();
     const se = $('#subj-edit');
     if (se) se.onclick = () => { subjEdit = true; subjDraft = S.subject; subjErr = false; renderPreview(); const i = $('#subj'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); };
@@ -1496,10 +1534,65 @@ function mountEditor(init, onChange, onChat) {
     valid: () => { const r = buildRule(); return !r.error && !readbackProblem && S.recipients.length > 0 && !S.recipients.some(e => !validEmail(e)); },
     summary: () => { const r = buildRule(); return r.error ? '' : describe(r); },
     openSection: k => { if (!open[k]) { snap[k] = sectionState(k); open[k] = true; render(); } },
-    deploy: () => { deployed = JSON.parse(JSON.stringify(S)); version += 1; Object.keys(open).forEach(k => { if (k !== 'preview') open[k] = false; }); render(); },
+    deploy: () => { deployed = JSON.parse(JSON.stringify(S)); version += 1; if (!init.alwaysOpen) Object.keys(open).forEach(k => { if (k !== 'preview') open[k] = false; }); render(); },
     next: () => { const r = buildRule(); if (r.error) return null; const n = runs(r, effectiveFrom(), untilOf(), 1)[0];
       return n ? new Date(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate(), n.getUTCHours(), n.getUTCMinutes()) : null; },
   };
+}
+function reportMailHTML(name) {
+  const init = { name };
+  const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  function trendChart() {
+    const days = ['Tue 6', 'Wed 7', 'Thu 8', 'Fri 9', 'Sat 10', 'Sun 11', 'Mon 12'];
+    const vals = [12.4, 13.1, 11.9, 14.2, 15.1, 15.6, 16.09];
+    const W = 560, H = 220, L = 52, R = 72, T = 16, B = 32, lo = 10, hi = 18;
+    const x = i => L + i * (W - L - R) / (vals.length - 1);
+    const y = v => T + (hi - v) / (hi - lo) * (H - T - B);
+    const ticks = [10, 12, 14, 16, 18];
+    const pts = vals.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    return `<svg class="m-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Daily revenue from Tue 6 to Mon 12 Oct 2026, rising from ₹12.4 lakh to ₹16.09 lakh">
+      ${ticks.map(t => `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}"/><text class="tick" x="${L - 8}" y="${y(t) + 4}" text-anchor="end">${t === hi ? '₹' + t + ' L' : t}</text>`).join('')}
+      ${days.map((d, i) => `<text class="tick" x="${x(i)}" y="${H - 10}" text-anchor="middle">${d}</text>`).join('')}
+      <polyline class="line" points="${pts}"/>
+      ${vals.map((v, i) => `<circle class="dot" cx="${x(i)}" cy="${y(v)}" r="${i === vals.length - 1 ? 4.5 : 3}"/>`).join('')}
+      <text class="end" x="${x(6) + 10}" y="${y(16.09) + 4}">₹16.09 L</text>
+    </svg>`;
+  }  function mailBody() {
+    const stores = [['Bengaluru Indiranagar', '2,14,800', '112'], ['Chennai Anna Nagar', '1,96,350', '104'], ['Mumbai Bandra West', '1,88,900', '97'], ['Pune Koregaon Park', '1,52,400', '81']];
+    const channels = [['Online', '6,42,000', '352', '39.9%'], ['Store', '4,98,000', '271', '30.9%'], ['App', '3,12,000', '165', '19.4%'], ['Marketplace', '1,57,400', '85', '9.8%']];
+    return `<div class="mail-body">
+          <header class="m-sec"><h3 class="m-title">${esc(init.name)}</h3><p class="lede">Mon 12 Oct 2026 across 128 stores. The numbers are sample data.</p></header>
+          <section class="m-sec">
+            <div class="m-kpis">
+              <div class="m-kpi"><span>REVENUE (YESTERDAY)</span><strong>₹16.09 L</strong></div>
+              <div class="m-kpi"><span>VS SAME DAY LAST WEEK</span><strong class="up">▲ +5.5%</strong></div>
+              <div class="m-kpi"><span>TRANSACTIONS</span><strong>873</strong></div>
+              <div class="m-kpi"><span>AVG TRANSACTION VALUE</span><strong>₹1,842</strong></div>
+            </div>
+          </section>
+          <section class="m-sec">
+            <h4>Revenue trend</h4>
+            <p class="m-sub">Daily revenue, last 7 days (6–12 Oct 2026)</p>
+            ${trendChart()}
+            <p class="m-trust">Source: transactions · Sample data as of Tue 13 Oct 2026, 9:00 AM IST</p>
+          </section>
+          <section class="m-sec">
+            <h4>Channel breakdown</h4>
+            <div class="m-tablewrap"><table class="m-table">
+              <thead><tr><th>Channel</th><th class="num">Revenue (₹)</th><th class="num">Transactions</th><th class="num">Share</th></tr></thead>
+              <tbody>${channels.map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td><td class="num">${r[3]}</td></tr>`).join('')}</tbody>
+            </table></div>
+          </section>
+          <section class="m-sec">
+            <h4>Top stores</h4>
+            <div class="m-tablewrap"><table class="m-table">
+              <thead><tr><th>Store</th><th class="num">Revenue (₹)</th><th class="num">Transactions</th></tr></thead>
+              <tbody>${stores.map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('')}</tbody>
+            </table></div>
+          </section>
+          <footer class="m-foot">You get this email because you're on the ${esc(init.name)} schedule.</footer>
+        </div>`;
+  }  return mailBody();
 }
 </script>
 <style>
@@ -1955,8 +2048,8 @@ function mountShare(host) {
   };
 
   var ROLE_SUB = {
-    editor: 'Can edit the schedule',
-    viewer: 'Can view the schedule'
+    editor: 'Can edit the scheduler',
+    viewer: 'Can view the scheduler'
   };
 
   // What the chosen role is allowed to do. The owner tunes this per batch in
@@ -2068,10 +2161,10 @@ function mountShare(host) {
   function accessLabel() { return S.access === 'restricted' ? 'Restricted' : ORG; }
   function accessDesc() {
     if (S.access === 'restricted') {
-      return 'Only the owner and people with access can open the schedule.';
+      return 'Only the owner and people with access can open the scheduler.';
     }
     return 'Anyone in this organisation can ' + (S.orgRole === 'editor' ? 'edit' : 'view') +
-      ' the schedule, unless assigned another role.';
+      ' the scheduler, unless assigned another role.';
   }
   function orgRoleLabel() { return S.orgRole === 'editor' ? 'Editor' : 'Viewer'; }
 
@@ -2339,7 +2432,7 @@ function mountShare(host) {
       '<button class="dd-option" role="option" type="button" data-act="access" data-value="restricted" ' +
         'data-live="Set Restricted"><span class="check">' + (restricted ? ICON.check : '') + '</span>' +
         '<span class="dd-option-text"><span class="dd-option-label">Restricted</span>' +
-        '<span class="dd-option-sub">Only the owner and people with access can open the schedule</span></span></button>' +
+        '<span class="dd-option-sub">Only the owner and people with access can open the scheduler</span></span></button>' +
       '<button class="dd-option" role="option" type="button" data-act="access" data-value="org" ' +
         'data-live="Set ' + ORG + '"><span class="check">' + (!restricted ? ICON.check : '') + '</span>' +
         '<span class="dd-option-text"><span class="dd-option-label">' + ORG + '</span>' +
@@ -2461,7 +2554,7 @@ function mountShare(host) {
         '<span class="box">' + (S.canEditorsShare ? ICON.checkSm : '') + '</span>' +
         '<span class="check-label">Share and change permissions</span>' +
       '</label>' +
-      '<p class="settings-help">Let editors share the schedule and control who can access it.</p>' +
+      '<p class="settings-help">Let editors share the scheduler and control who can access it.</p>' +
     '</div>';
   }
 
@@ -2726,7 +2819,7 @@ function mountShare(host) {
       if (S.failNext) {
         S.failNext = false;
         S.banner = {
-          title: 'Couldn&#39;t share this schedule',
+          title: 'Couldn&#39;t share this scheduler',
           desc: 'Retry, or contact support.'
         };
         render();
@@ -3099,9 +3192,13 @@ const I = {
   history:      s => ic('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>'
                       + '<path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>', s),
   play:         s => ic('<polygon points="6 3 20 12 6 21 6 3"/>', s),
+  globe:        s => ic('<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>', s),
   eye:          s => ic('<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>', s),
   /* lucide panel-right-open: what Open does here, a panel sliding in from the right. */
   panelOpen:    s => ic('<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m10 15-3-3 3-3"/>', s),
+  circleAlert:  s => ic('<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>', s),
+  chevronLeft:  s => ic('<path d="m15 18-6-6 6-6"/>', s),
+  copy:         s => ic('<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>', s),
   send:         s => ic('<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>', s),
   pause:        s => ic('<rect x="14" y="4" width="4" height="16" rx="1"/>'
                       + '<rect x="6" y="4" width="4" height="16" rx="1"/>', s),
@@ -3131,20 +3228,22 @@ const avatar = init =>
   + `background:var(--aira-avatar-grad);color:var(--aira-text-inverse);${F.lblMd};display:inline-flex;`
   + `align-items:center;justify-content:center;flex:none">${esc(init)}</span>`;
 function primaryBtn(label, key, glyph) {
-  return `<button class="reset" style="${row(8,'height:36px;padding:0 16px;width:fit-content;'
-    + 'justify-content:center;border-radius:var(--aira-radius-md);' + F.lblMd + ';'
-    + 'background:var(--aira-bg-brand);color:var(--aira-text-inverse);white-space:nowrap')}"`
-    + live(key) + `>` + (glyph ? glyph(ICON) : '') + esc(label) + `</button>`;
+  /* A leading icon carries its own empty margin inside its box, so the button's
+     left padding drops to 12px; the glyph then sits 16px from the edge, the same
+     as the label's 16px on the right. */
+  return `<button class="reset btn-p" style="${row(8,`height:36px;padding:0 16px 0 ${glyph ? 12 : 16}px;width:fit-content;`
+    + 'justify-content:center;border-radius:var(--aira-radius-md);' + F.lblMd + ';white-space:nowrap')}"`
+    + live(key) + `>` + (glyph ? glyph(16) : '') + esc(label) + `</button>`;
 }
 function ghostBtn(label, key, glyph, small) {
-  return `<button class="reset hov" style="${row(8,`height:${small ? 32 : 36}px;padding:0 ${small ? 12 : 16}px;`
+  return `<button class="reset btn-g" style="${row(8,`height:${small ? 32 : 36}px;padding:0 ${small ? 12 : 16}px 0 ${glyph ? (small ? 8 : 12) : (small ? 12 : 16)}px;`
     + 'width:fit-content;justify-content:center;border:1px solid var(--aira-border-strong);'
-    + 'background:var(--aira-bg-default);border-radius:var(--aira-radius-md);' + F.lblMd
+    + 'border-radius:var(--aira-radius-md);' + F.lblMd
     + ';color:var(--aira-text-secondary);white-space:nowrap')}"` + live(key) + `>`
-    + (glyph ? glyph(ICON) : '') + `${esc(label)}</button>`;
+    + (glyph ? glyph(16) : '') + `${esc(label)}</button>`;
 }
 function linkBtn(label, key) {
-  return `<button class="reset dplink" style="${F.lblSm};color:var(--aira-text-link);width:fit-content;`
+  return `<button class="reset dplink" style="${F.lblMd};color:var(--aira-text-link);width:fit-content;`
     + `padding:6px 0;margin:-6px 0"` + live(key) + `>${esc(label)}</button>`;
 }
 function iconBtn(label, key, glyph, ink) {
@@ -3159,6 +3258,7 @@ const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const D = (m, d, h=0, mi=0) => new Date(2026, m - 1, d, h, mi);
 const NOW = D(10, 14, 15, 0);                 // Wed Oct 14, 2026, 3:00 PM IST
 const fDate = d => `${MON[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+const fLong = d => `${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}, ${fTime(d)}`;
 const fShort = d => `${MON[d.getMonth()]} ${d.getDate()}`;
 const fTime = d => { let h = d.getHours(); const ap = h < 12 ? 'AM' : 'PM'; h = h % 12 || 12;
   return `${h}:${String(d.getMinutes()).padStart(2,'0')} ${ap}`; };
@@ -3172,6 +3272,7 @@ const tr  = n => n + '@trendly.in';
 const STORE_OPS = ['store.ops','priya.nair','arjun.mehta','kavya.rao','rohit.shah','neha.kapoor',
   'vikram.iyer','sneha.pillai','aditya.verma','meera.joshi','karan.malhotra'].map(tr);
 const BAD = tr('regional.nort');
+const BOUNCE = '550 5.1.1 User unknown';
 const SCRIPTS = [['overview.py', 'headline, orders_kpi, atv_kpi, wow_kpi, trend, channel_tbl'],
                  ['stores.py', 'top_stores, store_tbl']];
 
@@ -3186,7 +3287,10 @@ function seed() {
   const daily = [];
   const dRec = STORE_OPS.concat([BAD]);
   daily.push(mkRun(D(10,13,21,35), dRec, { result:'partial', notFound:[BAD] }));
-  for (let i = 1; i <= 34; i++) daily.push(mkRun(addDays(D(10,13,21,35), -i), STORE_OPS));
+  for (let i = 1; i <= 34; i++) daily.push(mkRun(addDays(D(10,13,21,35), -i), STORE_OPS, i === 7 ? {
+    result:'failed', delivery:'Connection unexpectedly closed',
+    why:'The report was built, but the mail server closed the connection before it could be sent.',
+    err:'Traceback (most recent call last):\n  File "capdoc/features/schedules/dispatch.py", line 141, in send_digest\n    await smtp.send_message(msg)\n  File "aiosmtplib/smtp.py", line 402, in send_message\n    raise SMTPServerDisconnected("Connection unexpectedly closed")\nSMTPServerDisconnected: Connection unexpectedly closed' } : {}));
 
   const wRec = [ME, tr('sales.head'), tr('finance.ops'), tr('category.team')];
   const weekly = [mkRun(D(10,14,10,56), wRec, { by:ME })];
@@ -3196,7 +3300,8 @@ function seed() {
   const mRec = ['loyalty.team','crm.lead','marketing.head','analytics','cx.head','finance.ops'].map(tr);
   const monthly = [
     mkRun(D(10,1,10,0), mRec, { result:'failed',
-      why:'aiRA couldn’t build the report because the loyalty data took too long to respond.' }),
+      why:'The loyalty data took too long to respond, so the report couldn’t be built.',
+      err:'Traceback (most recent call last):\n  File "capdoc/features/apps/service.py", line 214, in eval_app_code\n    for name, s in spec.items()\n  File "capdoc/features/sandbox/sandbox_manager.py", line 418, in get_sandbox_manager\n  File "capdoc/features/sandbox/sandbox_manager.py", line 275, in create\n  File "capdoc/core/tracing/base.py", line 263, in async_wrapper\n    return await func(*args, **kwargs)\n  File "overview.py", line 42, in fetch_members\n    result = await loyalty_api.members(window="last_month")\nTimeoutError: loyalty_api did not respond within 30s' }),
     mkRun(D(9,1,10,0), mRec), mkRun(D(8,1,10,0), mRec), mkRun(D(7,1,10,0), mRec)];
 
   const tRec = [cap('harsh.devda'), tr('tier.ops'), tr('loyalty.team')];
@@ -3230,11 +3335,11 @@ function seed() {
       cfg:{ repeats:'weekly', weekDays:[4], time:'18:00', cron:'0 18 * * 5' },
       status:'live', next:D(10,16,18,0), owner:ME,
       to:STORE_OPS.slice(0, 8), bad:[], runs:[] },
-    { id:'s5', ver:2, name:'Tier Upgrade Watch', sched:'Every weekday (Mon–Fri) at 8:00 AM',
+    { id:'s5', ver:2, name:'Tier Upgrade Watch', sched:'Weekdays at 8:00 AM',
       subject:'Members close to their next tier',
       cfg:{ repeats:'weekly', weekDays:[0,1,2,3,4], time:'08:00', cron:'0 8 * * 1-5' },
       status:'paused', next:null, resume:D(10,15,8,0), owner:cap('harsh.devda'), sharedMe:'editor', to:tRec, bad:[], runs:tier },
-    { id:'s6', ver:1, name:'Festive Campaign Tracker', sched:'Every day at 7:00 PM, Sep 20 to Oct 5',
+    { id:'s6', ver:1, name:'Festive Campaign Tracker', sched:'Every day at 7:00 PM, Sep 20–Oct 5',
       subject:'Festive campaign: yesterday’s redemptions and revenue',
       cfg:{ repeats:'daily', time:'19:00', cron:'0 19 * * *', endMode:'date', end:'2026-10-05' },
       status:'ended', next:null, ended:D(10,5,19,0), owner:cap('prarthana.dwivedi'), to:fRec, bad:[], runs:fest },
@@ -3248,7 +3353,7 @@ let SCH = seed();
 const SX = id => SCH.find(s => s.id === id);
 
 /* ── state ────────────────────────────────────────────────────────────────── */
-const S = { status:'all', owner:'any', q:'', sort:'asc', menu:null, drawer:null,
+const S = { view:null, status:'all', owner:'any', q:'', sort:'asc', menu:null, drawer:null,
   open:{}, tech:{}, allRec:{}, shown:10, modal:null, toast:null, focus:null };
 
 /* ── status pill (a schedule's state) and result mark (a run's outcome) ───────
@@ -3263,22 +3368,38 @@ const STATE = {
   draft:    { label:'Draft',    bg:'#EEF1F4', fg:'#364152', dot:'#9AA4B2' },
 };
 /* The published status pill with its leading dot: 2px 8px, 4px gap, 6px dot. */
+const verTag = v => `<span style="${F.lblSm};color:var(--aira-text-secondary);background:var(--aira-bg-muted);`
+  + `border-radius:var(--aira-radius-xs);padding:2px 8px;flex:none;${tab}">v${v}</span>`;
 const chip = st => `<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;`
   + `${F.lblSm};color:${STATE[st].fg};background:${STATE[st].bg};border-radius:var(--aira-radius-pill);`
   + `width:fit-content;white-space:nowrap"><span aria-hidden="true" style="width:6px;height:6px;flex:none;`
   + `border-radius:50%;background:${STATE[st].dot}"></span>${STATE[st].label}</span>`;
 
 const RESULT = {
-  sent:    { label:'Sent',        ink:'var(--aira-text-success)', g:I.circleCheck },
-  partial: { label:'Partly sent', ink:'var(--aira-text-warning)', g:I.triangleAlert },
+  sent:    { label:'Success',     ink:'var(--aira-text-success)', g:I.circleCheck },
+  partial: { label:'Partial',     ink:'var(--aira-text-warning)', g:I.triangleAlert },
   failed:  { label:'Failed',      ink:'var(--aira-text-danger)',  g:I.circleX },
   sending: { label:'Sending…',    ink:'var(--aira-text-link)',    g:I.loader },
 };
 const result = (r, font) => `<span style="${row(6,`${font || F.lblMd};color:var(--aira-text-primary);white-space:nowrap`)}">`
   + `<span style="display:flex;color:${RESULT[r].ink}">${RESULT[r].g(ICON)}</span>${RESULT[r].label}</span>`;
+/* A run's or a script's outcome on the Run history page is a status pill, same
+   build as the scheduler's own pill: Success green, Partial amber, Failed red,
+   Skipped and Sending neutral. */
+const OUTCOME = {
+  success: { label:'Success',  bg:'#E7F6EC', fg:'#185C32', dot:'#2A9D55' },
+  partial: { label:'Partial',  bg:'#FFF6E0', fg:'#8A5500', dot:'#E89B1A' },
+  failed:  { label:'Failed',   bg:'var(--aira-status-danger-bg)', fg:'#B11E1E', dot:'#D92D2D' },
+  skipped: { label:'Skipped',  bg:'#EEF1F4', fg:'#364152', dot:'#9AA4B2' },
+  sending: { label:'Sending…', bg:'#EEF1F4', fg:'#364152', dot:'#9AA4B2' },
+};
+const outPill = k => `<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;`
+  + `${F.lblSm};color:${OUTCOME[k].fg};background:${OUTCOME[k].bg};border-radius:var(--aira-radius-pill);`
+  + `width:fit-content;white-space:nowrap"><span aria-hidden="true" style="width:6px;height:6px;flex:none;`
+  + `border-radius:50%;background:${OUTCOME[k].dot}"></span>${OUTCOME[k].label}</span>`;
 const sentCount = r => r.result === 'failed' ? 0 : r.to.length - r.notFound.length;
-const reach = r => r.result === 'sending' ? `Sending to ${r.to.length}`
-  : r.result === 'failed' ? `0 of ${r.to.length} recipients` : `${sentCount(r)} of ${r.to.length} recipients`;
+const reach = r => r.result === 'sending' ? `0 of ${r.to.length}`
+  : r.result === 'failed' ? `0 of ${r.to.length}` : `${sentCount(r)} of ${r.to.length}`;
 
 /* ═══ chrome ═════════════════════════════════════════════════════════════ */
 const RAIL_ICONS = [
@@ -3294,12 +3415,13 @@ const RAIL_ICONS = [
 ];
 function railChrome() {
   const items = RAIL_ICONS.map((d, i) => {
+    // Schedulers lives under aiRA, as Apps does, so the aiRA item is the selected one.
     const on = i === 1;
-    return `<div style="${row(0,'justify-content:center')}width:56px;height:44px;`
+    return `<div ${on ? 'aria-current="page" ' : ''}style="${row(0,'justify-content:center')}width:56px;height:44px;`
       + `border-radius:var(--aira-radius-md);color:var(--aira-text-${on?'primary':'tertiary'});`
-      + `background:${on?'var(--aira-bg-selected)':'transparent'}">` + (on ? sparkle(20) : ic(d, 20)) + `</div>`;
+      + `background:${on?'var(--aira-bg-selected)':'transparent'}">` + (d === null ? sparkle(20) : ic(d, 20)) + `</div>`;
   }).join('');
-  return `<div style="${col(4,'align-items:center;padding:16px 0;width:88px;flex:none;background:var(--aira-bg-inverse)')}">`
+  return `<div class="dark" style="${col(4,'align-items:center;padding:16px 0;width:88px;flex:none;background:var(--aira-bg-inverse)')}">`
     + `<div style="${row(0,'justify-content:center')}width:56px;height:48px;margin-bottom:8px">${sparkle(24)}</div>`
     + items + `</div>`;
 }
@@ -3328,15 +3450,19 @@ function settingsNav() {
 
 /* ═══ listing ════════════════════════════════════════════════════════════ */
 const INSET = 32, CELL = 16;
+/* Percentage columns, as on the Apps listing: every row and the heading share one
+   spec, each column is a fixed share of the table, and the space between columns
+   is the cell's own right padding, so the grid reads evenly at any width. */
 const COLS = {
-  name:  'flex:1 1 0;min-width:240px',
-  state: 'width:84px;flex:none',
-  next:  'width:120px;flex:none',
-  last:  'width:128px;flex:none',
-  owner: 'flex:0 1 260px;min-width:160px',
-  act:   'width:56px;flex:none',
+  name:  'width:20%;flex:none;min-width:0;padding-right:16px',
+  state: 'width:10%;flex:none;min-width:0;padding-right:16px',
+  sched: 'width:12%;flex:none;min-width:0;padding-right:16px',
+  next:  'width:15%;flex:none;min-width:0;padding-right:16px',
+  last:  'width:15%;flex:none;min-width:0;padding-right:16px',
+  owner: 'width:23%;flex:none;min-width:0;padding-right:16px',
+  act:   'width:5%;flex:none;min-width:0',
 };
-const gutter = '<span style="width:32px;flex:none"></span>';
+const gutter = '';
 
 const STATUSES = [['all','All'], ['live','Live'], ['paused','Paused'], ['ended','Ended'], ['archived','Archived']];
 const OWNERS = [['any','Any owner'], ['me','Owned by me'], ['shared','Shared with me']];
@@ -3360,10 +3486,10 @@ function dropdown(opts, key, sel) {
   const open = S.menu === '__' + key;
   return `<span style="position:relative;display:inline-flex;flex:none">`
     + `<button class="reset hov" aria-haspopup="listbox" aria-expanded="${open}" `
-    + `style="${row(8,'height:36px;border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-md);'
-      + 'padding:0 12px 0 16px;' + F.body + ';color:var(--aira-text-secondary);white-space:nowrap')}"`
+    + `style="${row(8,'border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-md);'
+      + 'padding:8px 16px;font:400 14px/20px Roboto,system-ui,sans-serif;color:var(--aira-text-secondary);white-space:nowrap')}"`
     + named(labelOf(opts, sel) + ' filter', 'dd:' + key) + `>${esc(labelOf(opts, sel))}`
-    + `<span style="color:var(--aira-text-tertiary);display:flex">${I.chevronDown(14)}</span></button>`
+    + `<span style="display:flex">${I.chevronDown(20)}</span></button>`
     + (open ? `<div class="menu" role="listbox" style="${col(0,'position:absolute;left:0;top:calc(100% + 4px);'
           + 'min-width:100%;width:200px;background:var(--aira-bg-elevated);border:1px solid var(--aira-border-default);'
           + 'border-radius:var(--aira-radius-md);box-shadow:var(--aira-shadow-lg);padding:8px;z-index:4')}">`
@@ -3376,18 +3502,16 @@ function dropdown(opts, key, sel) {
     + `</span>`;
 }
 
-/* One way in (Open, the same as clicking the row), then actions. Grouped:
-   open · run and stop · access · put away. Run history is a tab inside the
-   drawer, so it is not a second menu item. */
+/* Two ways in, each its own drawer: Open (what goes out: preview, schedule,
+   recipients) and Run history (what went out). Then actions. Grouped:
+   open · run and stop · access · put away. */
+/* Row click opens the scheduler. The menu holds the other ways in and the
+   management actions, in one list like the Apps menu. Run now and Pause live in
+   the drawer. */
 function menuGroups(s) {
-  const view = [['Open', I.eye, 'edit']]; // eye, to match the Context and Whitelist URLs menus
-  if (s.status === 'archived') return [view, [['Restore', I.archiveRestore, 'restore']]];
-  const g = [view];
-  if (s.status === 'live')   g.push([['Run now', I.send, 'runnow'], ['Pause schedule', I.pause, 'pause']]);
-  if (s.status === 'paused') g.push([['Run now', I.send, 'runnow'], ['Resume schedule', I.play, 'resume']]);
-  g.push([['Share', I.share, 'share']]);
-  g.push([['Archive', I.archive, 'archive']]);
-  return g;
+  if (s.status === 'archived') return [[['Run history', I.history, 'runs'], ['Restore', I.archiveRestore, 'restore']]];
+  return [[['Edit in chat', I.messageSquare, 'chat'], ['Run history', I.history, 'runs'],
+           ['Share', I.share, 'share'], ['Archive', I.archive, 'archive']]];
 }
 function rowMenu(s, i, total) {
   if (S.menu !== s.id) return '';
@@ -3418,25 +3542,35 @@ function listing() {
 
   const sRow = (s, i, total) => {
     const last = s.runs[0];
-    const nextCell = s.next ? stack(fDate(s.next), fTime(s.next) + ' IST') : none('—');
+    /* Date and time on one line, the org's timezone under it, as the scheduler panel writes it. */
+    const nextCell = s.next ? `<div style="${col(0,'min-width:0')}">`
+        + `<span style="${F.lblMd};color:var(--aira-text-primary);${tab};${ellip}">${fLong(s.next)}</span>`
+        + `<span class="quiet" style="${row(4, F.bodySm + ';color:var(--aira-text-tertiary);min-width:0')}">`
+        + `<span style="display:flex;flex:none">${I.globe(14)}</span><span style="${ellip}">${esc(s.cfg.tz || 'Asia/Kolkata')}</span></span></div>`
+      : none('—');
     const lastCell = last
-      ? `<button class="reset lastrun" title="Open run history" style="${col(0)}"` + live('mi:runs:' + s.id) + `>${result(last.result)}`
-        + `<span class="quiet" style="${F.bodySm};color:var(--aira-text-tertiary);${tab};padding-left:22px">`
-        + `${fShort(last.at)}, ${fTime(last.at)}</span></button>`
+      ? `<button class="reset lastrun" title="Open run history" style="${col(0)}"` + live('mi:runs:' + s.id) + `>`
+        + `<span style="${F.lblMd};color:var(--aira-text-primary)">${RESULT[last.result].label}</span>`
+        + `<span class="quiet" style="${F.bodySm};color:var(--aira-text-tertiary);${tab}">`
+        + `${fLong(last.at)}</span></button>`
       : none('No runs yet');
-    return `<div class="hov" style="${rowTop(0,`padding:12px ${CELL}px;cursor:pointer;`
+    return `<div class="hov" style="${rowTop(0,`padding:14px ${CELL}px;cursor:pointer;`
         + 'border-bottom:1px solid var(--aira-border-subtle)')}"` + live('open:' + s.id) + `>`
       + `<div style="${col(0, COLS.name)}">`
-      + `<button class="reset" style="${F.lblMd};color:var(--aira-text-primary);${ellip};text-align:left;width:fit-content;max-width:100%"`
-      + live('open:' + s.id) + `>${esc(s.name)}</button>`
-      + `<span class="quiet" style="${F.bodySm};color:var(--aira-text-tertiary);${ellip}">${esc(s.sched)}</span></div>`
+      + `<span style="${row(8,'min-width:0')}"><button class="reset" style="${F.lblMd};color:var(--aira-text-primary);${ellip};text-align:left;min-width:0"`
+      + live('open:' + s.id) + `>${esc(s.name)}</button>${verTag(s.ver)}</span>`
+      + `</div>`
       + gutter + `<div style="${COLS.state};display:flex">${chip(s.status)}</div>`
+      // Frequency on top, the day and time under it, built like the Last run cell.
+      + `<div style="${COLS.sched}" title="${esc(s.sched)}">${(([f, w]) => stack(esc(f), esc(w || '')))(shortSched(s.cfg).split(' \u00b7 '))}</div>`
       + gutter + `<div style="${COLS.next}">${nextCell}</div>`
       + gutter + `<div style="${COLS.last}">${lastCell}</div>`
-      + gutter + `<div style="${COLS.owner}"><span title="${esc(s.owner)}" style="${BODY20};color:var(--aira-text-primary);display:block;${ellip}">${esc(s.owner)}</span></div>`
-      + gutter + `<div style="${row(0, COLS.act + ';height:20px')}"><span style="position:relative;display:flex">`
+      + gutter + `<div style="${COLS.owner}"><span title="${esc(s.owner)}" style="${F.bodySm};color:var(--aira-text-secondary);display:block;${ellip}">${esc(s.owner)}</span></div>`
+      /* The ⋯ sits on the row's first line with everything else, centred under
+         its heading. */
+      + gutter + `<div style="${row(0, COLS.act + ';height:20px;justify-content:center')}"><span style="position:relative;display:flex">`
       + `<button class="reset${S.menu === s.id ? '' : ' hov'}" aria-haspopup="menu" aria-expanded="${S.menu === s.id}" `
-      + `style="${row(0,'justify-content:center')}width:32px;height:32px;margin:-6px;border-radius:var(--aira-radius-md);`
+      + `style="${row(0,'justify-content:center')}width:32px;height:32px;margin:-6px 0;border-radius:var(--aira-radius-md);`
       + `color:var(--aira-text-secondary);${S.menu === s.id ? 'background:var(--aira-bg-hover)' : ''}"`
       + named('Actions for ' + s.name, 'more:' + s.id) + `>${I.ellipsis(20)}</button>`
       + rowMenu(s, i, total) + `</span></div></div>`;
@@ -3447,31 +3581,32 @@ function listing() {
   const h = (t, c) => `<div style="${row(4, c + ';white-space:nowrap;color:var(--aira-text-primary);' + F.lblMd)}">${t}</div>`;
   const head = `<div style="${row(0,`padding:12px ${CELL}px;position:sticky;top:0;z-index:2;flex:none;`
       + 'background:var(--aira-bg-subtle);border-bottom:1px solid var(--aira-border-default)')}">`
-    + h('Name', COLS.name) + gutter + h('Status', COLS.state) + gutter
+    + h('Name', COLS.name) + gutter + h('Status', COLS.state) + h('Schedule', COLS.sched)
     + `<div style="${COLS.next}"><button class="reset" title="Sort by next run" style="${row(4,'white-space:nowrap;color:var(--aira-text-primary);' + F.lblMd)}"`
     + live('sort') + `>Next run${sortMark}</button></div>`
-    + gutter + h('Last run', COLS.last) + gutter + h('Owner', COLS.owner) + gutter + h('Actions', COLS.act) + `</div>`;
+    + gutter + h('Last run', COLS.last) + gutter + h('Owner', COLS.owner) + gutter + h('Actions', COLS.act + ';justify-content:center') + `</div>`;
 
   const empty = `<div style="${col(8,'flex-grow:1;align-items:center;justify-content:center;padding:64px 24px;text-align:center')}">`
     + `<span style="color:var(--aira-text-tertiary);display:flex">${I.search(20)}</span>`
-    + `<span style="${F.h4};color:var(--aira-text-primary)">No schedules in this view</span>`
+    + `<span style="${F.h4};color:var(--aira-text-primary)">No schedulers in this view</span>`
     + `<span style="${F.bodySm};color:var(--aira-text-secondary)">Try another filter, or clear the search.</span></div>`;
 
   return `<div style="${col(0,`flex-grow:1;min-height:0;padding:24px ${INSET}px 32px`)}">`
     + `<div style="${row(0,'padding:0 0 20px')}">`
-    + `<h1 style="${F.h2};color:var(--aira-text-primary);margin:0">Schedules</h1><span style="flex-grow:1"></span>`
-    + iconBtn('Close settings', 'noop', I.x, 'var(--aira-text-tertiary)') + `</div>`
+    + `<h1 style="${F.h3};color:var(--aira-text-primary);margin:0">Schedulers</h1><span style="flex-grow:1"></span>`
+    // The close glyph takes no extra height, so the title row matches the Apps page.
+    + `<span style="margin:-6px -6px -6px 0;display:flex">` + iconBtn('Close', 'noop', I.x, 'var(--aira-text-tertiary)') + `</span></div>`
     + `<div style="${row(12,'padding:0 0 16px')}">`
     + dropdown(STATUSES, 'status', S.status) + dropdown(OWNERS, 'owner', S.owner)
-    + `<label class="qwrap" style="${row(8,'flex:1;max-width:360px;height:36px;border:1px solid var(--aira-border-default);'
-      + 'border-radius:var(--aira-radius-md);padding:0 12px;background:var(--aira-bg-elevated)')}">`
-    + `<span style="color:var(--aira-text-tertiary);display:flex">${I.search(16)}</span>`
-    + `<input class="qbox" id="qbox" type="text" value="${esc(S.q)}" placeholder="Search schedules" aria-label="Search schedules" `
-    + `style="${F.body};color:var(--aira-text-primary);border:0;background:none;padding:0;flex:1;min-width:0;outline:none"></label>`
+    + `<label class="qwrap" style="${row(8,'flex-grow:1;max-width:300px;border:1px solid var(--aira-border-default);'
+      + 'border-radius:var(--aira-radius-md);padding:8px 16px;background:var(--aira-bg-elevated)')}">`
+    + `<span style="color:var(--aira-text-tertiary);display:flex">${I.search(20)}</span>`
+    + `<input class="qbox" id="qbox" type="text" value="${esc(S.q)}" placeholder="Search schedulers" aria-label="Search schedulers" `
+    + `style="font:400 14px/20px Roboto,system-ui,sans-serif;color:var(--aira-text-primary);border:0;background:none;padding:0;flex:1;min-width:0;outline:none"></label>`
     + `<span style="flex-grow:1"></span>`
-    + `<span style="${F.bodySm};color:var(--aira-text-tertiary);${tab}">${rows.length} schedule${rows.length === 1 ? '' : 's'}</span>`
-    + `<span style="width:8px"></span>` + primaryBtn('New schedule', 'new', I.plus) + `</div>`
-    + `<div style="${col(0,'flex-grow:1;min-height:0;border-top:1px solid var(--aira-border-default)')}">`
+    + `<span style="${F.bodySm};color:var(--aira-text-secondary);${tab}">${rows.length} scheduler${rows.length === 1 ? '' : 's'}</span>`
+    + `<span style="width:16px"></span>` + primaryBtn('New scheduler', 'new', I.plus) + `</div>`
+    + `<div style="${col(0,'flex-grow:1;min-height:0')}">`
     + `<div class="scroller" id="stable" style="${col(0,'flex-grow:1;min-height:0;overflow-y:auto')}">`
     + head + (rows.length ? rows.map((s, i) => sRow(s, i, rows.length)).join('') : empty)
     + `</div></div></div>`;
@@ -3485,107 +3620,119 @@ function dateColW(runs) {
   measureCtx.font = '500 14px Roboto, system-ui, sans-serif';
   return Math.ceil(Math.max(0, ...runs.map(r => measureCtx.measureText(`${fRun(r.at)} · ${fTime(r.at)}`).width)));
 }
+/* Runs are a table: every column the old run history page had (started, duration,
+   status, recipients), each with a heading, with the run's detail expanding in place. */
+const RUN_GRID = 'display:grid;grid-template-columns:16px 28% 20% 16% minmax(0,1fr);column-gap:16px;align-items:center;padding-inline:16px';
 function runBlock(s, r) {
   const open = !!S.open[r.id];
-  const head = `<button class="reset hov" aria-expanded="${open}" style="${row(12,'padding:12px 16px;width:100%')}"`
+  const head = `<button class="reset${open ? '' : ' hov'}" aria-expanded="${open}" style="${RUN_GRID};min-height:52px;padding-block:14px;width:100%"`
     + live('run:' + r.id) + `>`
     + `<span style="display:flex;color:var(--aira-text-tertiary);transform:rotate(${open ? 90 : 0}deg);`
     + `transition:transform var(--aira-motion-fast) ease-out">${I.chevronRight(16)}</span>`
-    /* Two parts, not three columns: the date in a column sized to the widest date
-       in the list (so results line up down the list), then the result and its
-       reach read as one phrase. Fixed 168 / 120px columns left 80-90px holes. */
-    + `<span style="${F.lblMd};color:var(--aira-text-primary);width:${S.dateW}px;flex:none;white-space:nowrap;${tab}">${fRun(r.at)} · ${fTime(r.at)}</span>`
-    + `<span style="${row(8,'flex:1;min-width:0;margin-left:12px')}">${result(r.result, F.body)}`
-    + `<span aria-hidden="true" style="color:var(--aira-text-placeholder)">·</span>`
-    + `<span style="${F.body};color:var(--aira-text-secondary);${tab}">${reach(r)}</span></span>`
+    + `<span style="${row(8,'min-width:0')}"><span style="${F.lblMd};color:var(--aira-text-primary);white-space:nowrap;${tab}">${fRun(r.at)}, ${fTime(r.at)}</span>`
     + (r.by ? `<span style="${F.lblSm};color:var(--aira-approval-draft-text);background:var(--aira-bg-muted);border-radius:var(--aira-radius-pill);`
-        + `height:20px;padding:0 10px;display:inline-flex;align-items:center;white-space:nowrap">Run now</span>` : '')
+        + `height:20px;padding:0 8px;display:inline-flex;align-items:center;white-space:nowrap">Run now</span>` : '') + `</span>`
+    + `<span>${outPill(r.result === 'sent' ? 'success' : r.result)}</span>`
+    + `<span style="${F.body};color:var(--aira-text-primary);${tab}">${reach(r)}</span>`
+    + `<span style="${F.body};color:var(--aira-text-secondary);${tab}">${r.result === 'sending' ? '\u2014' : (r.dur / 1000).toFixed(1) + 's'}</span>`
     + `</button>`;
   if (!open) return `<div style="border-bottom:1px solid var(--aira-border-subtle)">${head}</div>`;
 
-  let alert = '';
-  if (r.result === 'partial' || r.result === 'failed') {
-    const failed = r.result === 'failed';
-    const n = r.notFound.length;
-    const title = failed ? 'Nothing was sent'
-      : `${n} email address${n === 1 ? '' : 'es'} couldn’t be found`;
-    const body = failed ? r.why + ' Run it again, and contact support if it fails twice.'
-      : (n === 1 ? 'Fix or remove it before the next run.' : 'Fix or remove them before the next run.');
-    /* One compact line: what happened and the fix on the left, the action on the
-       right. The run row above already says "Partly sent", so the box only carries
-       the next step. */
-    alert = `<div role="alert" style="${row(12,'padding:12px 12px 12px 16px;border-radius:var(--aira-radius-md);'
-        + `background:var(--aira-status-${failed ? 'danger' : 'warning'}-bg)`)}">`
-      + `<span style="display:flex;align-self:flex-start;padding-top:2px;color:var(--aira-text-${failed ? 'danger' : 'warning'})">`
-      + `${(failed ? I.circleX : I.triangleAlert)(ICON)}</span>`
-      + `<span style="${col(2,'flex:1;min-width:0')}"><span style="${F.lblMd};color:var(--aira-text-primary)">${title}</span>`
-      + `<span style="${F.bodySm};color:var(--aira-text-secondary)">${esc(body)}</span></span>`
-      + (failed ? ghostBtn('Run again', 'mi:runnow:' + s.id, I.send, true)
-          : ghostBtn('Edit recipients', 'mi:editrec:' + s.id, I.squarePen, true)) + `</div>`;
-  }
-
-  /* Recipients as a two-column list: status always in the same column, so the eye
-     runs straight down it. Problems first and in red; delivered rows stay quiet. */
-  let rec = '';
-  if (r.result !== 'failed') {
-    const list = r.notFound.map(e => [e, false]).concat(r.to.filter(e => !r.notFound.includes(e)).map(e => [e, true]));
-    /* Problems always show; delivered rows fill up to five, and the rest sit behind a
-       Show all / Show less toggle, so a 200-person run stays readable. */
-    const CUT = 5, many = list.length > CUT + 1, all = !many || !!S.allRec[r.id];
-    const shown = all ? list : list.slice(0, Math.max(CUT, r.notFound.length));
-    const GRID = 'display:grid;grid-template-columns:minmax(0,1fr) 128px;column-gap:16px;align-items:center;padding:0 12px';
-    rec = `<div style="${col(0,'border:1px solid var(--aira-border-subtle);border-radius:var(--aira-radius-md);overflow:hidden')}">`
-      + `<div style="${GRID};height:32px;background:var(--aira-bg-subtle);border-bottom:1px solid var(--aira-border-subtle);`
-      + `${F.lblSm};color:var(--aira-text-tertiary)"><span>Recipient</span><span>Status</span></div>`
-      + shown.map(([e, ok], i) => `<div style="${GRID};height:36px;`
-        + (i < shown.length - 1 || many ? 'border-bottom:1px solid var(--aira-border-subtle);' : '') + `">`
-        + `<span style="${F.bodySm};color:var(--aira-text-primary);${ellip}" title="${esc(e)}">${esc(e)}</span>`
-        + (r.result === 'sending'
-          ? `<span style="${F.bodySm};color:var(--aira-text-tertiary)">Waiting</span>`
-          : `<span style="${row(6, F.bodySm + `;color:var(--aira-text-${ok ? 'secondary' : 'danger'})`)}">`
-            + `<span style="display:flex;color:var(--aira-text-${ok ? 'success' : 'danger'})">${(ok ? I.check : I.circleX)(14)}</span>`
-            + `${ok ? 'Sent' : 'Not found'}</span>`)
-        + `</div>`).join('')
-      + (many ? `<div style="${row(0,'height:36px;padding:0 12px')}">${linkBtn(all ? 'Show less' : `Show all ${list.length} recipients`, 'allrec:' + r.id)}</div>` : '')
-      + `</div>`;
-  }
-
-  /* Technical details follow the recipients table exactly: a label/value list for
-     the run's facts, then the same bordered table (heading band, row rules, status
-     with an icon) for the scripts, so every column has a heading and lines up. */
+  /* Everything inside an opened run sits on the runs table's own columns: emails
+     and script names under Started, their result under Status, outputs under
+     Recipients, run time under Duration. Messages and the error trace span from
+     Started to the right edge. No nested boxes, no second background. */
+  const G = RUN_GRID;
   const failedRun = r.result === 'failed';
-  const factRow = (k, v) => `<div style="display:grid;grid-template-columns:96px minmax(0,1fr);column-gap:16px;padding:2px 0">`
-    + `<span style="${F.bodySm};color:var(--aira-text-tertiary)">${k}</span>`
-    + `<span style="${F.bodySm};color:var(--aira-text-primary);${tab}">${v}</span></div>`;
-  const SG = 'display:grid;grid-template-columns:120px 72px 112px minmax(0,1fr);column-gap:16px;align-items:center;padding:0 12px';
-  const tech = S.tech[r.id]
-    ? `<div style="${col(12)}">`
-      + `<div style="${col(0)}">`
-      + factRow('Started', `${fDate(r.at)}, ${fTime(r.at).replace(' ', ':' + String(r.dur % 60).padStart(2, '0') + ' ')} IST`)
-      + factRow('Duration', `${(r.dur / 1000).toFixed(1)}s`)
-      + (r.by ? factRow('Started by', esc(r.by)) : '') + `</div>`
-      + `<div style="${col(0,'border:1px solid var(--aira-border-subtle);border-radius:var(--aira-radius-md);overflow:hidden')}">`
-      + `<div style="${SG};height:32px;background:var(--aira-bg-subtle);border-bottom:1px solid var(--aira-border-subtle);`
-      + `${F.lblSm};color:var(--aira-text-tertiary)"><span>Script</span><span>Time</span><span>Status</span><span>Outputs</span></div>`
-      + SCRIPTS.map(([n, out], i) => {
-          const st = failedRun ? (i === 0 ? ['Timed out', false] : ['Skipped', null]) : ['Done', true];
-          return `<div style="${SG};min-height:36px;padding-block:8px;${i < SCRIPTS.length - 1 ? 'border-bottom:1px solid var(--aira-border-subtle);' : ''}">`
-            + `<span style="${F.bodySm};color:var(--aira-text-primary);${ellip}">${n}</span>`
-            + `<span style="${F.bodySm};color:var(--aira-text-secondary);${tab}">${failedRun && i ? '—' : Math.round(r.dur / (i ? 7 : 4)) + 'ms'}</span>`
-            + `<span style="${row(6, F.bodySm + `;color:var(--aira-text-${st[1] === false ? 'danger' : 'secondary'})`)}">`
-            + (st[1] === null ? '' : `<span style="display:flex;color:var(--aira-text-${st[1] ? 'success' : 'danger'})">${(st[1] ? I.check : I.circleX)(14)}</span>`)
-            + `${st[0]}</span>`
-            + `<span style="${F.bodySm};color:var(--aira-text-secondary);overflow-wrap:anywhere">${failedRun ? '—' : out}</span></div>`;
-        }).join('')
-      + `</div></div>`
-    : '';
+  const renderFail = failedRun && !r.delivery;   // the report itself wasn't built
+  /* An opened run holds real tables (bordered, with a heading row), and their
+     columns sit exactly on the runs table's columns: the box starts 12px left of
+     Started so its text lands on Started, then Status, Recipients, Duration. The
+     widths come from the runs table's own width (container units), not guesses. */
+  const WC = 'calc(100cqw - 32px)';
+  /* The first two columns (name, status) sit on the runs table's Started and Status,
+     which is what the eye scans down. After that the inner tables size to their own
+     content: the long text column takes the room, short figures get narrow fixed
+     columns, and the view control sits right after the time. */
+  const IN = `grid-template-columns:calc(${WC} * .28) calc(${WC} * .20) minmax(0,1fr) 72px 28px;column-gap:16px`;
+  const BOX = 'margin:0 16px 16px 36px;border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-md);overflow:hidden;background:var(--aira-bg-default)';
+  const block = html => `<div style="margin:0 16px 16px 36px">${html}</div>`;
+  /* maxH turns the body into a scroller; the heading sits inside it as a sticky
+     row so the scrollbar narrows heading and rows alike and the columns stay true. */
+  const table = (heads, rows, foot, maxH) => `<div style="${BOX}">`
+    + (maxH ? `<div class="scroller" style="max-height:${maxH}px;overflow-y:auto">` : '')
+    + `<div style="display:grid;${IN};padding:10px 12px 10px 11px;background:var(--aira-bg-subtle);border-bottom:1px solid var(--aira-border-subtle);${F.lblMd};color:var(--aira-text-primary)${maxH ? ';position:sticky;top:0;z-index:1' : ''}">`
+    + heads.map(h => `<span>${h}</span>`).join('') + `</div>`
+    + rows.map((cells, i) => `<div style="display:grid;${IN};align-items:center;padding:10px 12px 10px 11px;${i ? 'border-top:1px solid var(--aira-border-subtle)' : ''}">${cells}</div>`).join('')
+    + (maxH ? `</div>` : '')
+    + (foot ? `<div style="padding:10px 12px 10px 11px;border-top:1px solid var(--aira-border-subtle)">${foot}</div>` : '')
+    + `</div>`;
+  const mark = (ok, word) => `<span style="${row(6, B14 + `;color:var(--aira-text-${ok === false ? 'danger' : 'secondary'})`)}">`
+    + (ok === null ? '' : `<span style="display:flex;color:var(--aira-text-${ok ? 'success' : 'danger'})">${(ok ? I.check : I.circleX)(14)}</span>`)
+    + `${word}</span>`;
+  const mono = t => `<span style="font:400 12px/18px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--aira-text-secondary)">${t}</span>`;
+  const txt = (t, c) => `<span style="${B14};color:var(--aira-text-${c || 'primary'});min-width:0;overflow-wrap:anywhere">${t}</span>`;
 
-  return `<div style="border-bottom:1px solid var(--aira-border-subtle)">${head}`
-    + `<div style="${col(16,'padding:4px 16px 16px 44px')}">`
-    + alert + rec
-    + (r.result === 'sending' ? '' : `<div style="${col(8)}">`
-      + linkBtn(S.tech[r.id] ? 'Hide technical details' : 'View technical details', 'tech:' + r.id) + tech + `</div>`)
-    + `</div></div>`;
+  let out = '';
+  if (r.result === 'partial' || failedRun) {
+    const n = r.notFound.length;
+    const title = failedRun ? 'Nothing was sent' : `${n} email address${n === 1 ? '' : 'es'} couldn’t be found`;
+    const body = failedRun ? r.why
+      : `Fix or remove ${r.notFound.slice(0, 3).join(', ')}${n > 3 ? ` and ${n - 3} more` : ''} before the next run.`;
+    out += block(`<div role="alert" style="${rowTop(12,'padding:12px 16px 12px 11px;border-radius:var(--aira-radius-md);'
+        + `background:var(--aira-status-${failedRun ? 'danger' : 'warning'}-bg)`)}">`
+      + `<span style="display:flex;padding-top:2px;color:var(--aira-text-${failedRun ? 'danger' : 'warning'})">${(failedRun ? I.circleX : I.triangleAlert)(ICON)}</span>`
+      + `<span style="${col(2,'flex:1;min-width:0')}"><span style="${F.lblMd};color:var(--aira-text-primary)">${title}</span>`
+      + `<span style="${B14};color:var(--aira-text-secondary)">${esc(body)}</span></span></div>`);
+    if (failedRun && r.err) {
+      const copied = S.copied && S.copied[r.id];
+      out += `<div style="${BOX}">`
+        + `<div style="${row(8,'height:40px;padding:0 6px 0 11px;background:var(--aira-bg-subtle);border-bottom:1px solid var(--aira-border-subtle)')}">`
+        + `<span style="${F.lblMd};color:var(--aira-text-primary);flex:1">Error</span>`
+        + `<button class="reset btn-t" title="${copied ? 'Copied' : 'Copy error'}" aria-label="${copied ? 'Copied' : 'Copy error'}" `
+        + `style="${row(0,'justify-content:center')}width:28px;height:28px;border-radius:var(--aira-radius-sm);`
+        + `color:${copied ? 'var(--aira-text-success)' : 'var(--aira-text-secondary)'}"` + live('copyerr:' + r.id) + `>`
+        + `${(copied ? I.check : I.copy)(16)}</button></div>`
+        + `<pre style="margin:0;padding:12px 12px 12px 11px;font:400 12px/18px ui-monospace,SFMono-Regular,Menlo,monospace;`
+        + `color:var(--aira-text-primary);white-space:pre;overflow:auto;max-height:280px">${esc(r.err)}</pre></div>`;
+    }
+  }
+
+  /* Scripts: what ran, whether it worked, what it produced (each output opens in a viewer), and how long. */
+  if (r.result !== 'sending') out += `<div style="${row(8,'margin:0 16px 8px 36px;padding-left:12px')}"><span style="${F.lblMd};color:var(--aira-text-primary)">${SCRIPTS.length} scripts</span></div>`;
+  if (r.result !== 'sending') out += table(['Script', 'Status', 'Outputs', 'Time', ''], SCRIPTS.map(([n, outs], i) => {
+      const st = renderFail ? (i === 0 ? 'failed' : 'skipped') : 'success';
+      return txt(n) + `<span>${outPill(st)}</span>`
+        + txt(renderFail ? '\u2014' : outs, 'secondary')
+        + `<span style="${B14};color:var(--aira-text-secondary);${tab}">${renderFail && i ? '\u2014' : Math.round(r.dur / (i ? 7 : 4)) + 'ms'}</span>`
+        // View outputs sits in its own last column, at the row's right edge.
+        + (renderFail ? '<span></span>' : `<button class="reset btn-t" title="View outputs" aria-label="View outputs from ${n}" style="${row(0,'justify-content:center')}width:28px;height:28px;`
+            + `border-radius:var(--aira-radius-sm);color:var(--aira-text-secondary)"` + live('out:' + r.id + ':' + i) + `>${I.eye(16)}</button>`);
+    }));
+
+  /* Recipients: problems first, with the server's reason in its own column. */
+  {
+    const list = failedRun ? r.to.map(e => [e, false])
+      : r.notFound.map(e => [e, false]).concat(r.to.filter(e => !r.notFound.includes(e)).map(e => [e, true]));
+    /* The count sits above the table, where it is read before the list. When some
+       addresses failed, the count names them and filters the table to just those. */
+    const bad = list.filter(([, ok]) => !ok).length;
+    const only = bad && r.result !== 'sending' && !failedRun && !!S.allRec[r.id];
+    const rows = only ? list.filter(([, ok]) => !ok) : list;
+    const badWord = failedRun ? 'not sent' : 'not found';
+    const lead = `<span style="${F.lblMd};color:var(--aira-text-primary)">${list.length} recipient${list.length === 1 ? '' : 's'}</span>`;
+    out += `<div style="${row(8,'margin:0 16px 8px 36px;padding-left:12px;' + B14 + ';color:var(--aira-text-tertiary)')}">` + lead
+      + (r.result === 'sending' || !bad ? '' : failedRun ? `<span aria-hidden="true">\u00b7</span><span>${bad} ${badWord}</span>`
+        : `<span aria-hidden="true">\u00b7</span>` + linkBtn(only ? `Show all ${list.length}` : `Show ${bad} ${badWord}`, 'allrec:' + r.id))
+      + `</div>`;
+    out += table(['Recipient', 'Status', 'Reason', ''], rows.map(([e, ok]) =>
+        `<span title="${esc(e)}" style="${B14};color:var(--aira-text-primary);${ellip}">${esc(e)}</span>`
+        + txt(r.result === 'sending' ? 'Waiting' : ok ? 'Sent' : failedRun ? 'Not sent' : 'Not found')
+        + `<span style="grid-column:3 / -1;min-width:0">${ok || r.result === 'sending' ? txt('—', 'tertiary') : renderFail ? txt('The report wasn’t built', 'secondary') : mono(r.delivery || BOUNCE)}</span>`),
+      '', 6 * 41 + 41);
+  }
+
+  return `<div style="border-bottom:1px solid var(--aira-border-subtle);box-shadow:inset 3px 0 0 var(--aira-border-brand)">${head}<div style="padding-bottom:4px">${out}</div></div>`;
 }
 
 /* The drawer is one surface with two tabs. Overview is the scheduler panel's own
@@ -3593,6 +3740,49 @@ function runBlock(s, r) {
    the schedule reads and edits the same way in both places. Run history is the
    runs list. It lives in its own host outside the listing, so the listing can
    re-render without wiping an edit in progress. */
+/* Run history is its own page: a run's detail (error trace, scripts, recipients)
+   needs the width, and expanding rows in place keeps the list in view, so runs can
+   be compared without a page per run and a Back link each time. Read-only. */
+const B14 = 'font:400 14px/20px Roboto,system-ui,sans-serif';
+const DAYS3 = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const ordinal = n => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th','st','nd','rd'][n % 10] || 'th');
+const t12 = hhmm => { let [h, m] = hhmm.split(':').map(Number); const ap = h < 12 ? 'AM' : 'PM'; h = h % 12 || 12; return `${h}:${String(m).padStart(2,'0')} ${ap}`; };
+/* Frequency · day · time, never longer than about 28 characters: the frequency word,
+   then at most two days or a range or a count, then the time. */
+function shortSched(c) {
+  const t = t12(c.time || '09:00');
+  if (c.repeats === 'daily') return `Daily · ${t}`;
+  if (c.repeats === 'weekly') {
+    const d = [...(c.weekDays || [0])].sort((a, b) => a - b);
+    if (d.length === 7) return `Daily · ${t}`;
+    const run = d.every((x, i) => !i || x === d[i - 1] + 1);
+    const days = d.length <= 2 ? d.map(i => DAYS3[i]).join(', ') : run ? `${DAYS3[d[0]]}–${DAYS3[d[d.length - 1]]}` : `${d.length} days`;
+    return `Weekly · ${days} ${t}`;
+  }
+  if (c.repeats === 'monthly') {
+    const d = [...(c.monthDays || [1])].sort((a, b) => a - b);
+    return `Monthly · ${d.length <= 2 ? d.map(ordinal).join(', ') : d.length + ' dates'} ${t}`;
+  }
+  return 'Custom';
+}
+function runSummary(s) {
+  const recent = s.runs.filter(r => r.at >= addDays(NOW, -30) && r.result !== 'sending');
+  if (!recent.length) return 'No runs';
+  const cnt = k => recent.filter(r => r.result === k).length;
+  return [`${recent.length} run${recent.length === 1 ? '' : 's'}`].concat([['partial','partial'], ['failed','failed']]
+    .filter(([k]) => cnt(k)).map(([k, w]) => `${cnt(k)} ${w}`)).join(' \u00b7 ');
+}
+function runsPage(s) {
+  const nextTxt = s.next ? `${fRun(s.next)} at ${fTime(s.next)} IST`
+    : s.status === 'paused' ? 'Paused' : s.status === 'ended' ? `Ended ${fDate(s.ended)}` : 'Archived';
+  return `<div class="scroller" id="pscroll" style="${col(0,`flex-grow:1;min-height:0;overflow-y:auto;padding:24px ${INSET}px 32px`)}">`
+    + `<nav aria-label="Breadcrumb" style="${row(6, B14 + ';color:var(--aira-text-tertiary);margin-bottom:12px')}">`
+    + `<button class="reset dplink" style="${B14};color:var(--aira-text-tertiary)"` + live('back') + `>Schedulers</button>`
+    + `<span aria-hidden="true" style="display:flex">${I.chevronRight(14)}</span><span aria-current="page">Run history</span></nav>`
+    + `<div style="${row(12)}"><h1 style="${F.h3};color:var(--aira-text-primary);margin:0">${esc(s.name)}</h1>${verTag(s.ver)}${chip(s.status)}</div>`
+    + `<div style="flex:none;height:24px"></div>`
+    + runsPane(s) + `</div>`;
+}
 function runsPane(s) {
   const recent = s.runs.filter(r => r.at >= addDays(NOW, -30) && r.result !== 'sending');
   const cnt = k => recent.filter(r => r.result === k).length;
@@ -3607,15 +3797,18 @@ function runsPane(s) {
       + `<span style="${F.h4};color:var(--aira-text-primary)">No runs yet</span>`
       + `<span style="${F.bodySm};color:var(--aira-text-secondary)">${first}</span></div>`;
   }
-  return `<div style="${col(12,'padding:20px 24px 24px')}">`
-    + `<span style="${F.bodySm};color:var(--aira-text-secondary)">${summary}</span>`
-    + `<div style="${col(0,'border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-md);overflow:hidden')}">`
-    + (S.dateW = dateColW(s.runs.slice(0, S.shown)), s.runs.slice(0, S.shown).map(r => runBlock(s, r)).join('')) + `</div>`
-    + (s.runs.length > S.shown ? `<div style="${row(0,'justify-content:center')}">${ghostBtn('Show older runs', 'older')}</div>` : '')
+  return `<div style="${col(12)}">`
+    + `<div style="${col(0,'container-type:inline-size')}">`
+    + `<div style="${RUN_GRID};padding-block:12px;background:var(--aira-bg-subtle);border-bottom:1px solid var(--aira-border-default);`
+    + `${F.lblMd};color:var(--aira-text-primary)"><span></span><span>Started</span><span>Status</span><span>Recipients</span><span>Duration</span></div>`
+    + s.runs.slice(0, S.shown).map(r => runBlock(s, r)).join('') + `</div>`
+    // Older runs load as the list scrolls to its end; the sentinel row shows while they come in.
+    + (s.runs.length > S.shown ? `<div id="more-runs" style="${row(8,'justify-content:center;padding:12px 0;' + B14 + ';color:var(--aira-text-tertiary)')}">`
+        + `<span class="spin" style="display:flex">${I.loader(16)}</span>Loading older runs</div>` : '')
     + `</div>`;
 }
 
-const tabBtn = (label, k, on) => `<button class="reset" role="tab" aria-selected="${on}" `
+const tabBtn = (label, k, on) => `<button class="reset tabbtn" role="tab" aria-selected="${on}" `
   + `style="${F.lblMd};height:40px;display:flex;align-items:center;margin-bottom:-1px;`
   + `border-bottom:2px solid ${on ? 'var(--aira-border-brand)' : 'transparent'};`
   + `color:${on ? 'var(--aira-text-primary)' : 'var(--aira-text-secondary)'}"`
@@ -3634,10 +3827,10 @@ function openChat(id) {
   S.drawer = null; S.menu = null; S.modal = null;
   dhost.hidden = true; dhost.innerHTML = ''; DS.id = null; DS.ed = null;
   CH.id = id;
-  chathost.hidden = false; protoEl.hidden = true;
+  chathost.hidden = false; renderProto();
   chathost.innerHTML = `<div id="sched-ed" class="chatmode${s.status === 'archived' ? ' readonly' : ''}"><div class="app">`
     + `<div class="chat-col" aria-label="Chat"><div class="chat-scroll">`
-    + `<div class="chat-msg user">I want to edit the schedule “${esc(s.name)}”.</div>`
+    + `<div class="chat-msg user">I want to edit the scheduler “${esc(s.name)}”.</div>`
     + `<div class="chat-msg ai">“${esc(s.name)}” is open in the panel as v${s.ver}. You can change the schedule, the recipients or the subject there. To change what the email says, tell me here.</div>`
     + `</div><div class="composer-wrap"><div class="composer">`
     + `<button class="ic" aria-label="Add attachment"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`
@@ -3652,7 +3845,13 @@ function openChat(id) {
     + (s.status === 'live' || s.status === 'paused' ? `<button class="btn secondary" data-fk="mi:runnow:${s.id}">${svgI('play')}Run now</button>` : '')
     + `<button class="icon-btn" aria-label="Close panel" data-fk="chclose">${svgI('x')}</button></div></header>`
     + ED_MARKUP + `</main></div></div></div>`;
-  CH.ed = mountEditor(Object.assign(edInit(s), { inChat: true }), () => { if (CH.ed) syncChat(); }, null);
+  {
+    // Same order as the drawer: the email first, then who gets it, then when.
+    const sch = document.getElementById('blk-schedule'), host = sch.parentNode;
+    host.insertBefore(document.getElementById('blk-preview'), sch);
+    host.insertBefore(document.getElementById('blk-recipients'), sch);
+  }
+  CH.ed = mountEditor(Object.assign(edInit(s), { inChat: true, bounced: [] }), () => { if (CH.ed) syncChat(); }, null);
   syncChat();
 }
 function syncChat() {
@@ -3665,7 +3864,7 @@ function syncChat() {
   const d = document.getElementById('ch-deploy');
   if (d) { d.textContent = dirty ? 'Deploy' : 'Deployed'; d.disabled = !(dirty && CH.ed.valid()); }
 }
-function closeChat() { CH.id = null; CH.ed = null; chathost.hidden = true; chathost.innerHTML = ''; protoEl.hidden = false; }
+function closeChat() { CH.id = null; CH.ed = null; chathost.hidden = true; chathost.innerHTML = ''; renderProto(); }
 
 /* Share is the apps share dialog, mounted from the same code as dashboards. It
    remembers who has access per schedule for as long as the prototype runs. */
@@ -3688,25 +3887,24 @@ const curId = () => CH.id || (S.drawer && S.drawer.id);
 const dirtyEd = () => !!(curEd() && curEd().changed());
 
 function drawerHead(s) {
-  const btns = s.status === 'live' ? ghostBtn('Pause', 'mi:pause:' + s.id, I.pause, true) + ghostBtn('Run now', 'mi:runnow:' + s.id, I.send, true)
-    : s.status === 'paused' ? ghostBtn('Resume', 'mi:resume:' + s.id, I.play, true) + ghostBtn('Run now', 'mi:runnow:' + s.id, I.send, true)
+  const tert = (t, k) => `<button class="reset btn-t" style="${row(0,'height:32px;padding:0 12px;border-radius:var(--aira-radius-md);' + F.lblMd)}"` + live(k) + `>${t}</button>`;
+  // Run history is read-only: no Pause, Resume or Run now there.
+  const btns = S.drawer.tab === 'runs' ? '' : s.status === 'live' ? tert('Pause', 'mi:pause:' + s.id) + ghostBtn('Run now', 'mi:runnow:' + s.id, I.send, true)
+    : s.status === 'paused' ? tert('Resume', 'mi:resume:' + s.id) + ghostBtn('Run now', 'mi:runnow:' + s.id, I.send, true)
     : '';
-  /* Header actions are only the ones about what goes out next: Pause / Resume and
-     Run now. Share and Archive manage the schedule as an object, so they stay in
-     the listing's row menu, one click away. */
-  const more = '';
   return `<span style="${row(12,'flex:1;min-width:0;min-height:32px')}">`
+    + `<span style="${col(2,'min-width:0')}"><span style="${row(12,'min-width:0')}">`
     + `<h2 id="drawertitle" style="${F.h3};color:var(--aira-text-primary);margin:0;${ellip}">${esc(s.name)}</h2>`
-    + chip(dirtyEd() ? 'draft' : s.status) + `</span>`
-    + `<span style="${row(8,'flex:none')}">${btns}${more}`
-    + `<span aria-hidden="true" style="width:1px;height:20px;background:var(--aira-border-default);margin:0 4px"></span>`
-    + iconBtn('Close', 'dclose', I.x) + `</span>`;
+    + verTag(s.ver) + chip(s.status) + `</span>`
+    + (S.drawer.tab === 'runs' ? `<span style="${F.bodySm};color:var(--aira-text-tertiary)">Run history</span>` : '')
+    + `</span></span>`
+    + `<span style="${row(8,'flex:none')}">${btns}</span>`;
 }
 /* What the schedule's state means for this page, said once at the top of Overview,
    so the readback's "Next run" is never read as a promise while it is paused. */
 function drawerBanner(s) {
   const b = s.status === 'paused' ? ['Paused. Nothing goes out until you resume it.', null]
-    : s.status === 'ended' ? [`Ended ${fDate(s.ended)}. Change the end date and deploy to start it again.`, null]
+    : s.status === 'ended' ? [`Ended ${fDate(s.ended)}. Nothing more goes out.`, null]
     : s.status === 'archived' ? ['Archived. Restore it to make changes or run it again.', null]
     : null;
   if (!b) return '';
@@ -3721,20 +3919,18 @@ function drawerFoot(s) {
   const tabRuns = S.drawer.tab === 'runs';
   let main = '';
   if (s.status === 'archived') main = primaryBtn('Restore', 'mi:restore:' + s.id, I.archiveRestore);
-  else if (!tabRuns) {
+  else if (!tabRuns && s.status !== 'ended') {
     const ok = dirtyEd() && DS.ed.valid();
-    main = `<button class="reset" ${ok ? '' : 'disabled aria-disabled="true"'} style="${row(8,'height:36px;padding:0 16px;'
-      + 'border-radius:var(--aira-radius-md);' + F.lblMd + ';'
-      + (ok ? 'background:var(--aira-bg-brand);color:var(--aira-text-inverse)' : 'background:var(--aira-bg-muted);color:var(--aira-text-disabled)'))}"`
-      + (ok ? live('deploy') : '') + `>Deploy</button>`;
+    main = `<button class="reset btn-p" ${ok ? '' : 'disabled aria-disabled="true"'} style="${row(8,'height:36px;padding:0 16px;'
+      + 'border-radius:var(--aira-radius-md);' + F.lblMd)}"` + (ok ? live('deploy') : '') + `>Save</button>`;
   }
-  return ghostBtn(dirtyEd() ? 'Discard' : 'Close', 'dclose') + main;
+  return ghostBtn('Close', 'dclose') + main;
 }
 function syncDrawer() {
   if (!S.drawer) return;
   const s = SX(S.drawer.id);
   document.getElementById('dhead').innerHTML = drawerHead(s);
-  document.getElementById('dbanner').innerHTML = drawerBanner(s);
+  const db = document.getElementById('dbanner'); if (db) db.innerHTML = drawerBanner(s);
   document.getElementById('dfoot').innerHTML = drawerFoot(s);
 }
 
@@ -3742,31 +3938,37 @@ function renderDrawer() {
   dhost.hidden = !S.drawer;
   if (!S.drawer) { dhost.innerHTML = ''; DS.id = null; DS.ed = null; return; }
   const s = SX(S.drawer.id);
-  if (DS.id !== s.id) {
-    DS.id = s.id;
-    const ro = s.status === 'archived';
+  /* Open and Run history are two separate drawers, so each opens on its own job
+     with no tabs to switch between. */
+  const runsMode = S.drawer.tab === 'runs', key = s.id + ':' + S.drawer.tab;
+  if (DS.id !== key) {
+    DS.id = key; DS.ed = null;
+    const ro = s.status === 'archived' || s.status === 'ended';
     dhost.innerHTML = `<div id="scrim" style="${row(0,'position:absolute;inset:0;justify-content:flex-end;background:var(--aira-bg-scrim)')}"`
       + live('scrim') + `>`
       + `<div id="sdrawer" role="dialog" aria-modal="true" aria-labelledby="drawertitle" tabindex="-1" `
       + `style="${col(0,`width:${DRAWER_W}px;max-width:100%;height:100%;background:var(--aira-bg-elevated);`
         + 'border-left:1px solid var(--aira-border-default);box-shadow:var(--aira-shadow-lg);outline:none')}">`
-      + `<div style="${col(12,'padding:20px 24px 0;flex:none;border-bottom:1px solid var(--aira-border-default)')}">`
-      + `<div id="dhead" style="${rowTop(12)}"></div>`
-      + `<div id="dtabs" role="tablist" style="${row(24)}"></div></div>`
+      + `<div style="${col(0,'padding:20px 24px 16px;flex:none;border-bottom:1px solid var(--aira-border-default)')}">`
+      + `<div id="dhead" style="${rowTop(12)}"></div></div>`
       + `<div class="scroller" id="dscroll" style="${col(0,'flex:1;min-height:0;overflow-y:auto')}">`
-      + `<div id="pane-overview"><div id="dbanner"></div><div id="sched-ed" class="${ro ? 'readonly' : ''}">${ED_MARKUP}</div></div>`
-      + `<div id="pane-runs"></div></div>`
+      + (runsMode ? `<div id="pane-runs"></div>`
+          : `<div id="pane-overview"><div id="dbanner"></div><div id="sched-ed" class="drawermode${ro ? ' readonly' : ''}">${ED_MARKUP}</div></div>`)
+      + `</div>`
       + `<div id="dfoot" style="${row(8,'padding:16px 24px;flex:none;justify-content:flex-end;border-top:1px solid var(--aira-border-default)')}"></div>`
       + `</div></div>`;
-    DS.ed = mountEditor(edInit(s), () => { if (DS.ed) syncDrawer(); },
-      () => openChat(s.id));
+    if (!runsMode) {
+      // The email comes first: it's what this scheduler is for.
+      const host = document.getElementById('sched-ed');
+      host.insertBefore(document.getElementById('blk-preview'), host.firstChild);
+      // Who gets it comes before when: Preview, Recipients, Schedule.
+      host.insertBefore(document.getElementById('blk-recipients'), document.getElementById('blk-schedule'));
+      DS.ed = mountEditor(Object.assign(edInit(s), { bounced: [], alwaysOpen: true, inlineEmail: true }), () => { if (DS.ed) syncDrawer(); },
+        () => openChat(s.id));
+    }
   }
-  const tabRuns = S.drawer.tab === 'runs';
-  document.getElementById('dtabs').innerHTML = tabBtn('Overview', 'overview', !tabRuns) + tabBtn('Run history', 'runs', tabRuns);
-  document.getElementById('pane-overview').hidden = tabRuns;
-  const rp = document.getElementById('pane-runs');
-  rp.hidden = !tabRuns;
-  if (tabRuns) { const ds = document.getElementById('dscroll'), top = ds.scrollTop; rp.innerHTML = runsPane(s); ds.scrollTop = top; }
+  if (runsMode) { const ds = document.getElementById('dscroll'), top = ds.scrollTop;
+    document.getElementById('pane-runs').innerHTML = runsPane(s); ds.scrollTop = top; }
   syncDrawer();
   document.getElementById('sdrawer').inert = !!S.modal;
 }
@@ -3777,24 +3979,114 @@ const MODALS = {
   runnow: { mark:false, title:() => 'Send this report now?', confirm:'Send now',
     body:s => dirtyEd() ? `Are you sure you want to send it now? It sends the live version to ${s.to.length} recipients, without the changes you haven\u2019t deployed.`
       : `Are you sure you want to send it now? It goes to all ${s.to.length} recipients right away, and the regular schedule stays the same.` },
-  pause: { mark:true, title:() => 'Pause this schedule?', confirm:'Pause',
-    body:() => 'This schedule will stop running until resumed.' },
-  resume: { mark:false, title:() => 'Resume this schedule?', confirm:'Resume',
+  /* Saving (drawer) or deploying (chat) always makes a new version and puts it
+     live, so it says both before it happens. */
+  newver: { mark:false,
+    title:s => `Deploy the new version of \u201c${s.name}\u201d?`,
+    confirm:'Deploy',
+    body:() => 'Your schedule will be updated to the latest version for future runs.' },
+  pause: { mark:true, title:() => 'Pause this scheduler?', confirm:'Pause',
+    body:() => 'This scheduler will stop running until resumed.' },
+  resume: { mark:false, title:() => 'Resume this scheduler?', confirm:'Resume',
     body:s => `Are you sure you want to resume it? It goes back to its usual timing, and the next run is ${at(s.resume)}.` },
-  archive: { mark:true, danger:true, title:() => 'Archive this schedule?', confirm:'Archive',
-    body:() => 'Are you sure you want to archive it? It stops sending right away, and you can restore it later from Archived.' },
+  archive: { mark:true, danger:true, title:() => 'Archive this scheduler?', confirm:'Archive',
+    body:() => 'This schedule will stop running. You can restore it anytime.' },
   discard: { mark:true, danger:true, title:() => 'Discard your changes?', confirm:'Discard',
-    body:() => 'You changed this schedule but didn\u2019t deploy it. If you close now, your changes are lost.' },
-  restore: { mark:false, title:() => 'Restore this schedule?', confirm:'Restore',
-    body:() => 'It comes back paused, so nothing goes out until you resume it. Its run history comes back with it.' },
+    body:() => 'You changed this scheduler but didn\u2019t save it. If you close now, your changes are lost.' },
+  restore: { mark:false, title:() => 'Restore this scheduler?', confirm:'Restore',
+    body:() => 'This will restore the schedule and its history.' },
 };
+/* Run now sends real email to real people straight away, so it opens a review of
+   exactly what will go out: who gets it, the subject and the email itself, all
+   from the live version. Send now is the only way through. */
+function runNowModal(s) {
+  // A review of what goes out, not a report on past runs: no delivery errors here.
+  const to = s.to;
+  const many = to.length > 4, all = !many || !!S.rnAll, shown = all ? to : to.slice(0, 3);
+  const label = (t) => `<span style="${F.bodySm};color:var(--aira-text-tertiary)">${t}</span>`;
+  const rowKV = (k, v) => `<div style="display:grid;grid-template-columns:72px minmax(0,1fr);column-gap:16px;align-items:start">`
+    + `<span style="${F.bodySm};color:var(--aira-text-tertiary);padding-top:1px">${k}</span><div style="min-width:0">${v}</div></div>`;
+  const people = `<div style="${col(4)}">`
+    + `<span style="${F.lblMd};color:var(--aira-text-primary)">${to.length} ${to.length === 1 ? 'person' : 'people'}</span>`
+    + `<div style="${col(2)}">` + shown.map(e => `<span style="${row(6, F.bodySm + ';color:var(--aira-text-secondary)')}">`
+        + `<span style="${ellip}">${esc(e)}</span></span>`).join('') + `</div>`
+    + (many ? linkBtn(all ? 'Show less' : `Show all ${to.length}`, 'rnall') : '')
+    + `</div>`;
+  const draftNote = dirtyEd()
+    ? `<div style="${row(8,'padding:8px 12px;border-radius:var(--aira-radius-md);background:var(--aira-bg-muted)')}">`
+      + `<span style="display:flex;color:var(--aira-text-tertiary)">${I.info(ICON)}</span>`
+      + `<span style="${F.bodySm};color:var(--aira-text-secondary)">${CH.id ? 'This sends the live version. Your changes that aren’t deployed won’t be in it.' : 'This sends the saved version. Your unsaved changes won’t be in it.'}</span></div>` : '';
+  return `<div style="${row(0,'position:absolute;inset:0;justify-content:center;align-items:center;background:var(--aira-bg-scrim);z-index:8;padding:32px')}">`
+    + `<div id="smodal" role="dialog" aria-modal="true" aria-labelledby="mtitle" style="${col(0,'width:100%;max-width:720px;max-height:100%;'
+      + 'background:var(--aira-bg-surface);border-radius:var(--aira-radius-lg);box-shadow:var(--aira-shadow-lg);overflow:hidden')}">`
+    + `<div style="${rowTop(12,'padding:20px 20px 16px;border-bottom:1px solid var(--aira-border-subtle);flex:none')}">`
+    + `<span style="${col(2,'flex:1;min-width:0')}"><h2 id="mtitle" style="${F.h3};color:var(--aira-text-primary);margin:0">Send this report now?</h2>`
+    + `<span style="${F.bodySm};color:var(--aira-text-secondary)">This will be sent now. Future runs stay the same.</span></span>`
+    + iconBtn('Close', 'mcancel', I.x, 'var(--aira-text-tertiary)') + `</div>`
+    + `<div class="scroller" style="${col(16,'padding:16px 20px 20px;overflow-y:auto;min-height:0')}">`
+    + draftNote
+    + rowKV('To', people)
+    + rowKV('Subject', `<span style="${F.lblMd};color:var(--aira-text-primary)">${esc(s.subject)}</span>`)
+    + `<div style="${col(8)}">${label('Email')}`
+    + `<div class="mailscope" style="background:var(--aira-bg-subtle);border:1px solid var(--aira-border-subtle);border-radius:var(--aira-radius-md);padding:16px">`
+    + `<article class="pv-mail" style="margin:0 auto;max-width:600px">${reportMailHTML(s.name)}</article></div></div>`
+    + `</div>`
+    + `<div style="${row(8,'padding:12px 20px 16px;justify-content:flex-end;border-top:1px solid var(--aira-border-subtle);flex:none')}">`
+    + `<button class="reset btn-t" style="${row(0,'justify-content:center')}height:36px;padding:0 16px;border-radius:var(--aira-radius-md);${F.lblMd}"` + live('mcancel') + `>Cancel</button>`
+    + `<button class="reset btn-p" style="${row(8,'justify-content:center')}height:36px;padding:0 16px 0 12px;border-radius:var(--aira-radius-md);${F.lblMd}"` + live('mconfirm') + `>${I.send(16)}Send now</button>`
+    + `</div></div></div>`;
+}
+
+/* A script's outputs, previewed: KPIs as figures, trends as a chart, tables as
+   tables, text as text. Sample values, as everywhere in the prototype. */
+const OUTPUT_SAMPLES = {
+  headline: ['text', 'Revenue was ₹16.09 L yesterday, up 5.5% on the same day last week.'],
+  orders_kpi: ['kpi', 'Transactions', '873'], atv_kpi: ['kpi', 'Avg transaction value', '₹1,842'],
+  wow_kpi: ['kpi', 'Vs same day last week', '+5.5%'],
+  trend: ['chart', 'Daily revenue, last 7 days (₹ L)', [['Tue', 12.4], ['Wed', 13.1], ['Thu', 11.9], ['Fri', 14.2], ['Sat', 15.1], ['Sun', 15.6], ['Mon', 16.1]]],
+  channel_tbl: ['table', ['Channel', 'Revenue (₹)', 'Share'], [['Online', '6,42,000', '39.9%'], ['Store', '4,98,000', '30.9%'], ['App', '3,12,000', '19.4%'], ['Marketplace', '1,57,400', '9.8%']]],
+  top_stores: ['table', ['Store', 'Revenue (₹)'], [['Bengaluru Indiranagar', '2,14,800'], ['Chennai Anna Nagar', '1,96,350'], ['Mumbai Bandra West', '1,88,900']]],
+  store_tbl: ['table', ['Store', 'Transactions'], [['Bengaluru Indiranagar', '112'], ['Chennai Anna Nagar', '104'], ['Mumbai Bandra West', '97']]],
+};
+function outputPreview(name) {
+  const o = OUTPUT_SAMPLES[name] || ['text', 'Output generated.'];
+  const box = inner => `<div style="border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-md);padding:16px;background:var(--aira-bg-default)">${inner}</div>`;
+  if (o[0] === 'text') return box(`<span style="${B14};color:var(--aira-text-primary)">${o[1]}</span>`);
+  if (o[0] === 'kpi') return box(`<span style="${col(4)}"><span style="${B14};color:var(--aira-text-tertiary)">${o[1]}</span><span style="${F.h3};color:var(--aira-text-primary);${tab}">${o[2]}</span></span>`);
+  if (o[0] === 'table') return `<div style="border:1px solid var(--aira-border-default);border-radius:var(--aira-radius-md);overflow:hidden">`
+    + `<div style="display:grid;grid-template-columns:repeat(${o[1].length},minmax(0,1fr));padding:10px 12px;background:var(--aira-bg-subtle);border-bottom:1px solid var(--aira-border-subtle);${F.lblMd};color:var(--aira-text-primary)">${o[1].map(h => `<span>${h}</span>`).join('')}</div>`
+    + o[2].map((r, i) => `<div style="display:grid;grid-template-columns:repeat(${o[1].length},minmax(0,1fr));padding:10px 12px;${i ? 'border-top:1px solid var(--aira-border-subtle);' : ''}${B14};color:var(--aira-text-primary);${tab}">${r.map(c => `<span>${c}</span>`).join('')}</div>`).join('') + `</div>`;
+  // chart: one series, the brand indigo, value labels on the bars
+  const W = 600, H = 200, L = 8, B = 28, T = 20, max = Math.max(...o[2].map(d => d[1])) * 1.1, bw = (W - L * 2) / o[2].length;
+  return box(`<span style="${B14};color:var(--aira-text-tertiary)">${o[1]}</span>`
+    + `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;margin-top:8px" role="img" aria-label="${o[1]}">`
+    + o[2].map(([k, v], i) => { const h = (H - B - T) * v / max, x = L + i * bw + bw * 0.2, y = H - B - h;
+        return `<rect x="${x}" y="${y}" width="${bw * 0.6}" height="${h}" rx="2" fill="#3438C9"/>`
+          + `<text x="${x + bw * 0.3}" y="${y - 6}" text-anchor="middle" font-size="12" fill="#364152" font-family="Roboto">${v}</text>`
+          + `<text x="${x + bw * 0.3}" y="${H - 8}" text-anchor="middle" font-size="12" fill="#6B7785" font-family="Roboto">${k}</text>`; }).join('')
+    + `<line x1="${L}" x2="${W - L}" y1="${H - B}" y2="${H - B}" stroke="#E2E6EB"/></svg>`);
+}
+function outputModal() {
+  const [name, outs] = SCRIPTS[S.modal.i];
+  return `<div style="${row(0,'position:absolute;inset:0;justify-content:center;align-items:center;background:var(--aira-bg-scrim);z-index:8;padding:32px')}">`
+    + `<div id="smodal" role="dialog" aria-modal="true" aria-labelledby="mtitle" style="${col(0,'width:100%;max-width:720px;max-height:100%;'
+      + 'background:var(--aira-bg-surface);border-radius:var(--aira-radius-lg);box-shadow:var(--aira-shadow-lg);overflow:hidden')}">`
+    + `<div style="${row(12,'padding:16px 20px;border-bottom:1px solid var(--aira-border-subtle);flex:none')}">`
+    + `<h2 id="mtitle" style="${F.h3};color:var(--aira-text-primary);margin:0;flex:1">Outputs from ${name}</h2>`
+    + iconBtn('Close', 'mcancel', I.x, 'var(--aira-text-tertiary)') + `</div>`
+    + `<div class="scroller" style="${col(20,'padding:20px;overflow-y:auto;min-height:0')}">`
+    + outs.split(', ').map(o => `<div style="${col(8)}"><span style="font:500 13px/20px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--aira-text-primary)">${o}</span>${outputPreview(o)}</div>`).join('')
+    + `</div></div></div>`;
+}
+
 function modalEl() {
   if (!S.modal) return '';
+  if (S.modal.kind === 'output') return outputModal();
+  if (S.modal.kind === 'runnow') return runNowModal(SX(S.modal.id));
   const m = MODALS[S.modal.kind], s = SX(S.modal.id);
-  const b = (label, primary, fk) => `<button class="reset hov" style="${row(0,'justify-content:center')}height:36px;`
-    + `padding:0 16px;border-radius:var(--aira-radius-md);${F.lblMd};`
-    + (primary ? `color:var(--aira-text-inverse);background:var(--aira-bg-${m.danger ? 'danger' : 'brand'})`
-               : 'color:var(--aira-text-secondary)') + `"` + live(fk) + `>${esc(label)}</button>`;
+  const b = (label, primary, fk) => `<button class="reset ${primary ? (m.danger ? 'btn-d' : 'btn-p') : 'btn-t'}" `
+    + `style="${row(0,'justify-content:center')}height:36px;padding:0 16px;border-radius:var(--aira-radius-md);${F.lblMd}"`
+    + live(fk) + `>${esc(label)}</button>`;
   const mark = m.mark ? `<span aria-hidden="true" style="${row(0,'justify-content:center')}width:36px;height:36px;flex:none;`
       + `border-radius:var(--aira-radius-circle);background:var(--aira-status-warning-bg)">`
       + `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--aira-status-warning-text)" stroke-width="2" `
@@ -3806,9 +4098,9 @@ function modalEl() {
       + 'background:var(--aira-bg-surface);border-radius:var(--aira-radius-lg);box-shadow:var(--aira-shadow-lg);overflow:hidden')}">`
     + `<div style="${row(12,`padding:${mark ? 20 : 16}px 20px 0`)}">${mark}`
     + `<h2 id="mtitle" style="${F.h3};color:var(--aira-text-primary);margin:0">${esc(m.title(s))}</h2></div>`
-    + `<div style="${F.body};color:var(--aira-text-secondary);padding:12px 20px 16px;text-wrap:balance">${esc(m.body(s))}</div>`
+    + `<div style="${F.body};color:var(--aira-text-secondary);padding:12px 20px 16px;text-wrap:pretty">${esc(m.body(s))}</div>`
     + `<div style="${row(8,'padding:12px 20px 16px;justify-content:flex-end;border-top:1px solid var(--aira-border-subtle)')}">`
-    + b('Cancel', false, 'mcancel') + b(m.confirm, true, 'mconfirm') + `</div></div></div>`;
+    + b('Cancel', false, 'mcancel') + b(typeof m.confirm === 'function' ? m.confirm(s) : m.confirm, true, 'mconfirm') + `</div></div></div>`;
 }
 
 /* ═══ toast ══════════════════════════════════════════════════════════════ */
@@ -3837,19 +4129,30 @@ const appEl = document.getElementById('app');
 const protoEl = document.getElementById('proto');
 function render() {
   const tb = document.getElementById('stable'), tTop = tb ? tb.scrollTop : 0;
+  const ps = document.getElementById('pscroll'), pTop = ps ? ps.scrollTop : 0;
   const qf = document.activeElement && document.activeElement.id === 'qbox';
   appEl.innerHTML =
     `<div id="appmain" style="${row(0,'align-items:stretch;flex:1;min-width:0;height:100%;background:var(--aira-bg-canvas);overflow:hidden')}">`
     + railChrome()
     + `<div style="${col(0,'flex-grow:1;min-width:0')}">` + topBar()
     + `<div style="${col(0,'flex-grow:1;min-width:0;min-height:0;background:var(--aira-bg-elevated)')}">`
-    + `<div style="${row(0,'height:60px;flex:none;padding:0 24px;border-bottom:1px solid var(--aira-border-default)')}">`
-    + `<span style="${F.h3};color:var(--aira-text-primary)">Settings</span></div>`
-    + `<div style="${row(0,'flex-grow:1;min-height:0;align-items:stretch')}">` + settingsNav()
-    + `<div style="${col(0,'flex-grow:1;min-width:0;min-height:0')}">` + listing() + `</div>`
-    + `</div></div></div></div>`
+    + (S.view ? runsPage(SX(S.view.id)) : listing()) + `</div></div></div>`
     + modalEl() + toastEl();
   const tb2 = document.getElementById('stable'); if (tb2) tb2.scrollTop = tTop;
+  const ps2 = document.getElementById('pscroll'); if (ps2) ps2.scrollTop = pTop;
+  const more = document.getElementById('more-runs');
+  if (more && ps2) {
+    // Load the next ten once the loading row comes into view.
+    let queued = false;
+    const check = () => {
+      if (queued || !document.body.contains(more)) return;
+      if (more.getBoundingClientRect().top > ps2.getBoundingClientRect().bottom + 40) return;
+      queued = true; ps2.removeEventListener('scroll', check);
+      setTimeout(() => { S.shown += 10; render(); }, 500);
+    };
+    ps2.addEventListener('scroll', check, { passive: true });
+    check();
+  }
   const main = document.getElementById('appmain');
   if (main) main.inert = !!(S.drawer || S.modal || CH.id);
   syncChat();
@@ -3858,10 +4161,16 @@ function render() {
   const q = document.getElementById('qbox');
   if (qf && q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
   if (S.focus) { const el = document.querySelector(S.focus); if (el) el.focus(); S.focus = null; }
-  protoEl.hidden = !!CH.id; // the chat page has no empty header band to sit in
-  protoEl.style.left = S.drawer ? `calc((100% - min(${DRAWER_W}px, 100%)) / 2)` : '50%';
+  renderProto();
 }
 
+function openRuns(id, focusRunId) {
+  const s = SX(id);
+  S.drawer = null; if (CH.id) closeChat();
+  S.view = { id }; S.shown = 10; S.open = {}; S.tech = {}; S.allRec = {};
+  const first = focusRunId ? s.runs.find(r => r.id === focusRunId) : s.runs[0];
+  if (first && (focusRunId || first.result !== 'sent')) S.open[first.id] = true;
+}
 function openDrawer(id, tab, focusRunId) {
   if (CH.id) closeChat();
   const s = SX(id);
@@ -3895,8 +4204,9 @@ function deploy() {
   else if (s.status === 'paused') s.resume = next;
   else if (s.status === 'ended' && next) { s.status = 'live'; s.next = next; }
   ed.deploy(); s.ver += 1;
-  toast(s.status === 'paused' ? 'Deployed. It stays paused until you resume it'
-    : next ? 'Deployed. Next run ' + at(next) : 'Deployed');
+  const verb = 'Deployed v' + s.ver; // the dialog's button says Deploy, so the toast does too
+  toast(s.status === 'paused' ? verb + '. It stays paused until you resume it'
+    : next ? verb + '. Next run ' + at(next) : verb);
 }
 
 function act(k) {
@@ -3908,35 +4218,46 @@ function act(k) {
   if (h === 'dd')    { S.menu = S.menu === '__' + a ? null : '__' + a; }
   if (h === 'set')   { S[a] = b; S.menu = null; }
   if (h === 'sort')  { S.sort = S.sort === 'asc' ? 'desc' : 'asc'; }
-  if (h === 'new')   { toast('Opens a new chat, where you describe the report and aiRA sets up the schedule', 'info'); }
+  if (h === 'new')   { toast('Opens a new chat, where you describe the report and aiRA sets up the scheduler', 'info'); }
   if (h === 'tab')   { S.drawer.tab = a; }
   if (h === 'dmore') { S.menu = S.menu === '__drawer' ? null : '__drawer'; }
   if (h === 'dclose' || h === 'scrim') {
     if (dirtyEd()) S.modal = { kind:'discard', id:S.drawer.id }; else closeDrawer();
   }
-  if (h === 'deploy') { deploy(); }
+  if (h === 'deploy') { S.modal = { kind:'newver', id:curId() }; }
   if (h === 'chclose') { if (dirtyEd()) S.modal = { kind:'discard', id:CH.id }; else closeChat(); }
   if (h === 'run')   { S.open[a] = !S.open[a]; }
   if (h === 'tech')  { S.tech[a] = !S.tech[a]; }
+  if (h === 'out')   { S.modal = { kind:'output', rid:a, i:+b }; }
+  if (h === 'copyerr') {
+    const r = SCH.flatMap(x => x.runs).find(x => x.id === a);
+    try { navigator.clipboard.writeText(r.err).catch(() => {}); } catch (e) {}
+    S.copied = Object.assign({}, S.copied, { [a]: true });
+    setTimeout(() => { S.copied[a] = false; render(); }, 1600);
+  }
   if (h === 'allrec'){ S.allRec[a] = !S.allRec[a]; }
   if (h === 'older') { S.shown += 10; }
   if (h === 'toastclose') { S.toast = null; }
-  if (h === 'view')  { S.toast = null; openDrawer(a, 'runs', b); }
+  if (h === 'view')  { S.toast = null; openRuns(a, b); }
+  if (h === 'back')  { S.view = null; }
   if (h === 'mi') {
-    if (a === 'runs')    openDrawer(b, 'runs');
+    if (a === 'runs')    openRuns(b);
+    if (a === 'chat')    openChat(b);
     if (a === 'edit')    openDrawer(b, 'overview');
     if (a === 'editrec') { S.drawer.tab = 'overview'; render(); DS.ed.openSection('recipients');
       document.getElementById('blk-recipients').scrollIntoView({ block:'start' }); return; }
     if (a === 'share')   openShare(SX(b));
-    if (['runnow','pause','resume','archive','restore'].includes(a)) S.modal = { kind:a, id:b };
+    if (['runnow','pause','resume','archive','restore'].includes(a)) { S.modal = { kind:a, id:b }; S.rnAll = false; }
   }
   if (h === 'mcancel') { S.modal = null; }
+  if (h === 'rnall') { S.rnAll = !S.rnAll; }
   if (h === 'mconfirm' && S.modal) {
     const { kind, id } = S.modal, s = SX(id);
     S.modal = null;
     if (kind === 'discard') { if (CH.id) closeChat(); else closeDrawer(); }
+    if (kind === 'newver') { deploy(); }
     if (kind === 'runnow') { const r = runNow(s);
-      if (S.drawer && S.drawer.id === id) { S.drawer.tab = 'runs'; S.open = { [r.id]: true }; toast('Sending now'); }
+      if (S.view && S.view.id === id) { S.open = { [r.id]: true }; toast('Sending now'); }
       else toast('Sending “' + s.name + '” now', 'success', ['View run', 'view:' + id + ':' + r.id]); }
     if (kind === 'pause')   { s.resume = s.next; s.next = null; s.status = 'paused'; toast('Paused. Nothing goes out until you resume it'); }
     if (kind === 'resume')  { s.next = s.resume; s.status = 'live'; toast('Resumed. Next run ' + at(s.next)); }
@@ -3972,12 +4293,29 @@ document.addEventListener('keydown', e => {
   render();
 });
 
-protoEl.innerHTML = `<span class="plabel">Prototype</span><button type="button" id="preset">Reset</button>`;
-document.getElementById('preset').onclick = () => {
-  SCH = seed(); Object.assign(S, { status:'all', owner:'any', q:'', sort:'asc', menu:null, drawer:null,
-    open:{}, tech:{}, allRec:{}, shown:10, modal:null, toast:null });
-  render();
-};
+/* Prototype controls. In the product, Edit in chat opens a new tab, so the chat
+   page has no way back of its own. Here the strip offers one, centred over the
+   chat column so it never covers the panel's title. */
+let protoMode = null;
+function renderProto() {
+  const mode = CH.id ? 'chat' : 'list';
+  protoEl.hidden = !!S.modal; // a dialog's title sits where the strip would
+  protoEl.style.left = CH.id ? '22%' : S.drawer ? `calc((100% - min(${DRAWER_W}px, 100%)) / 2)` : '50%';
+  if (mode === protoMode) return;
+  protoMode = mode;
+  protoEl.innerHTML = `<span class="plabel">Prototype</span>`
+    + (CH.id ? `<span class="pnote">Opens in a new tab in the product</span>`
+        + `<button type="button" id="pback">Back to Schedulers</button><span class="psep"></span>` : '')
+    + `<button type="button" id="preset">Restart</button>`;
+  const back = document.getElementById('pback');
+  if (back) back.onclick = () => { S.modal = null; closeChat(); render(); };
+  document.getElementById('preset').onclick = () => {
+    if (CH.id) closeChat();
+    SCH = seed(); Object.assign(S, { view:null, status:'all', owner:'any', q:'', sort:'asc', menu:null, drawer:null,
+      open:{}, tech:{}, allRec:{}, shown:10, modal:null, toast:null });
+    render();
+  };
+}
 render();
 </script>
 
