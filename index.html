@@ -396,6 +396,7 @@ button,input,textarea{font-family:inherit}
 :is(#sched-ed, .mailscope) .tok .x{ width: 28px; height: 28px; }
  }
 :is(#sched-ed, .mailscope) .block + .block{ border-top: 1px solid var(--aira-border-default); }
+:is(#sched-ed, .mailscope) .pv-note{ grid-column: 1 / -1; grid-row: 2; margin: 2px 0 0; font: 400 13px/20px var(--aira-font-sans); color: var(--aira-text-tertiary); }
 :is(#sched-ed, .mailscope) .blk-head{ display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: start; column-gap: var(--aira-sp-4); padding: var(--aira-sp-5); }
 :is(#sched-ed, .mailscope) .blk-head h2{ margin: 0; font: 500 14px/20px var(--aira-font-sans); color: var(--aira-text-primary); }
 :is(#sched-ed, .mailscope) .blk-sum{ margin: 0; min-width: 0; font: 400 14px/20px var(--aira-font-sans); color: var(--aira-text-secondary); display: flex; flex-wrap: wrap; column-gap: var(--aira-sp-2); }
@@ -3712,17 +3713,10 @@ function runBlock(s, r) {
   {
     const list = failedRun ? r.to.map(e => [e, false])
       : r.notFound.map(e => [e, false]).concat(r.to.filter(e => !r.notFound.includes(e)).map(e => [e, true]));
-    /* The count sits above the table, where it is read before the list. When some
-       addresses failed, the count names them and filters the table to just those. */
-    const bad = list.filter(([, ok]) => !ok).length;
-    const only = bad && r.result !== 'sending' && !failedRun && !!S.allRec[r.id];
-    const rows = only ? list.filter(([, ok]) => !ok) : list;
-    const badWord = failedRun ? 'not sent' : 'not found';
-    const lead = `<span style="${F.lblMd};color:var(--aira-text-primary)">${list.length} recipient${list.length === 1 ? '' : 's'}</span>`;
-    out += `<div style="${row(8,'margin:0 16px 8px 36px;padding-left:12px;' + B14 + ';color:var(--aira-text-tertiary)')}">` + lead
-      + (r.result === 'sending' || !bad ? '' : failedRun ? `<span aria-hidden="true">\u00b7</span><span>${bad} ${badWord}</span>`
-        : `<span aria-hidden="true">\u00b7</span>` + linkBtn(only ? `Show all ${list.length}` : `Show ${bad} ${badWord}`, 'allrec:' + r.id))
-      + `</div>`;
+    // The count sits above the table, where it is read before the list.
+    const rows = list;
+    out += `<div style="${row(8,'margin:0 16px 8px 36px;padding-left:12px')}"><span style="${F.lblMd};color:var(--aira-text-primary)">`
+      + `${list.length} recipient${list.length === 1 ? '' : 's'}</span></div>`;
     out += table(['Recipient', 'Status', 'Reason', ''], rows.map(([e, ok]) =>
         `<span title="${esc(e)}" style="${B14};color:var(--aira-text-primary);${ellip}">${esc(e)}</span>`
         + txt(r.result === 'sending' ? 'Waiting' : ok ? 'Sent' : failedRun ? 'Not sent' : 'Not found')
